@@ -1,23 +1,23 @@
-import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'sign_up_event.dart';
+import 'sign_up_state.dart';
 
-abstract class SignUpEvent extends Equatable {
-  const SignUpEvent();
+class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
+  SignUpBloc() : super(SignUpInitial()) {
+    on<SignUpSubmitted>(onSignUpSubmitted);
+  }
 
-  @override
-  List<Object?> get props => [];
-}
+  Future<void> onSignUpSubmitted(
+    SignUpSubmitted event,
+    Emitter<SignUpState> emit,
+  ) async {
+    emit(SignUpLoading());
+    try {
 
-class SignUpSubmitted extends SignUpEvent {
-  final String email;
-  final String password;
-  final String username;
 
-  const SignUpSubmitted({
-    required this.email,
-    required this.password,
-    required this.username,
-  });
 
-  @override
-  List<Object?> get props => [email, password, username];
+    } catch (e) {
+      emit(SignUpFailure(e.toString()));
+    }
+  }
 }
