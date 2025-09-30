@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
+import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/sign_up_appbar.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/sign_up_form.dart';
 
@@ -78,6 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 onSubmit: submit,
                 isLoading: isLoading,
               ),
+              
             ],
           ),
         ),

@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
+import 'package:jay_insta_clone/presentation/features/authentication/sign_up/screens/sign_up_screen.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/custom_text_field.dart';
+import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/sign_up_appbar.dart';
 
-class SignUpForm extends StatelessWidget {
+class SignInForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final TextEditingController nameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final bool obscurePassword;
-  final bool agreedToTerms;
+
   final VoidCallback onPasswordVisibilityToggle;
-  final ValueChanged<bool?> onTermsToggle;
+
   final VoidCallback onSubmit;
   final bool isLoading;
 
-  const SignUpForm({
+  const SignInForm({
     super.key,
     required this.formKey,
     required this.nameController,
     required this.emailController,
     required this.passwordController,
     required this.obscurePassword,
-    required this.agreedToTerms,
+
     required this.onPasswordVisibilityToggle,
-    required this.onTermsToggle,
+
     required this.onSubmit,
     required this.isLoading,
   });
@@ -36,13 +38,6 @@ class SignUpForm extends StatelessWidget {
         key: formKey,
         child: Column(
           children: [
-            CustomTextField(
-              controller: nameController,
-              label: StringConstants.usernameLabel,
-              validatorMsg: StringConstants.usernameEmpty,
-            ),
-            const SizedBox(height: 16),
-
             CustomTextField(
               controller: emailController,
               label: StringConstants.emailLabel,
@@ -66,42 +61,23 @@ class SignUpForm extends StatelessWidget {
                 onPressed: onPasswordVisibilityToggle,
               ),
             ),
-            const SizedBox(height: 16),
 
-            Row(
-              children: [
-                Checkbox(
-                  value: agreedToTerms,
-                  activeColor: ColorConstants.primaryColor,
-                  onChanged: onTermsToggle,
-                ),
-                Expanded(
-                  child: Text(
-                    StringConstants.terms,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: ColorConstants.textSecondaryColor,
-                    ),
-                  ),
-                ),
-              ],
-            ),
             const SizedBox(height: 12),
             Row(
               spacing: 4,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  StringConstants.alreadyUser,
-                  style: TextStyle(fontSize: 16),
-                ),
+                Text(StringConstants.notUser, style: TextStyle(fontSize: 16)),
 
                 GestureDetector(
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignUpScreen()),
+                    );
                   },
                   child: Text(
-                    StringConstants.signInTitle,
+                    StringConstants.signUpTitle,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -133,8 +109,9 @@ class SignUpForm extends StatelessWidget {
                         ),
                       )
                     : Text(
-                        StringConstants.signUpButton,
-                        style: const TextStyle(
+                        StringConstants.signInTitle.toUpperCase(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           fontSize: 16,
                           color: Colors.white,
                         ),
