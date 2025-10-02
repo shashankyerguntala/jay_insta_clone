@@ -3,7 +3,6 @@ import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/screens/sign_up_screen.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/custom_text_field.dart';
-import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/sign_up_appbar.dart';
 
 class SignInForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;

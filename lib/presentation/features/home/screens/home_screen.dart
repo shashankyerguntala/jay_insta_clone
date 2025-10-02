@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jay_insta_clone/presentation/features/create_post/screens/create_post.dart';
 
 import 'package:jay_insta_clone/presentation/features/home/widgets/post_card.dart';
+import 'package:jay_insta_clone/presentation/features/profile/screens/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,6 +33,20 @@ class _HomeScreenState extends State<HomeScreen> {
               commentsCount: 12,
               createdAt: DateTime.now(),
             ),
+            PostCard(
+              email: "user@example.com",
+              caption: "Flutter UI is awesome!",
+              description: "Building custom widgets is easier than you think.",
+              commentsCount: 12,
+              createdAt: DateTime.now(),
+            ),
+            PostCard(
+              email: "user@example.com",
+              caption: "Flutter UI is awesome!",
+              description: "Building custom widgets is easier than you think.",
+              commentsCount: 12,
+              createdAt: DateTime.now(),
+            ),
           ],
         ),
       ),
@@ -50,7 +65,16 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(Icons.add, size: 32),
             ),
             Spacer(),
-            Icon(Icons.man, size: 32),
+
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
+              },
+              child: Icon(Icons.person, size: 32),
+            ),
           ],
         ),
       ),

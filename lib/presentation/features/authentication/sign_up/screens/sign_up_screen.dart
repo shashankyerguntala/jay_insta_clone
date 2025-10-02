@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
-import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
+import 'package:jay_insta_clone/presentation/features/authentication/sign_in/screens/sign_in_screen.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/sign_up_appbar.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/sign_up_form.dart';
 
@@ -37,11 +37,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       Future.delayed(const Duration(seconds: 2), () {
         setState(() => isLoading = false);
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Sign Up Successful!'),
             backgroundColor: ColorConstants.successColor,
           ),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (ctx) => SignInScreen()),
         );
       });
     }
@@ -79,7 +84,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 onSubmit: submit,
                 isLoading: isLoading,
               ),
-              
             ],
           ),
         ),

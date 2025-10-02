@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 
 class PostCard extends StatelessWidget {
   final String email;
@@ -22,7 +21,7 @@ class PostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      // color: ColorConstants.primaryColor,
+
       elevation: 3,
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: Padding(

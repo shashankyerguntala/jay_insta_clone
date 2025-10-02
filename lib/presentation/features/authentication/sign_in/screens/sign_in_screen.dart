@@ -3,6 +3,7 @@ import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_in/widgets/sign_in_appbar.dart';
 
 import 'package:jay_insta_clone/presentation/features/authentication/sign_in/widgets/sign_in_form.dart';
+import 'package:jay_insta_clone/presentation/features/home/screens/home_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -32,6 +33,10 @@ class _SignInScreenState extends State<SignInScreen> {
             content: Text('Sign In Successful!'),
             backgroundColor: ColorConstants.successColor,
           ),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
         );
       });
     }

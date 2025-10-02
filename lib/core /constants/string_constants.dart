@@ -2,7 +2,7 @@ class StringConstants {
   static const String appTitle = 'Jay Insta Clone';
   static const String terms = 'Please agree to terms of use and privacy policy';
   static const String alreadyUser = 'Already a User?';
-  static const String notUser = 'Not User?';
+  static const String notUser = 'Not a user?';
   static const String welcomeBack = 'Welcome Back ! Sign In into your account';
 
   static const String signUpTitle = 'Sign Up';
@@ -23,6 +23,6 @@ class StringConstants {
   static const String signUpFailure = 'Sign Up Failed. Please try again.';
 
   static const String loginTitle = 'Login';
-  static const String loginButton = 'Login';
+
   static const String loginFailure = 'Login Failed. Please try again.';
 }
