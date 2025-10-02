@@ -4,6 +4,7 @@ class PostEntity {
   final String content;
   final String author;
   final DateTime createdAt;
+  final String status;
 
   const PostEntity({
     required this.id,
@@ -11,5 +12,6 @@ class PostEntity {
     required this.content,
     required this.author,
     required this.createdAt,
+    required this.status,
   });
 }

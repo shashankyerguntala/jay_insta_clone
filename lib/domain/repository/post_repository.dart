@@ -6,4 +6,5 @@ abstract class PostRepository {
   Future<Either<Failure, List<PostEntity>>> getAllPosts();
 
   Future<Either<Failure, void>> createPost(String title, String content);
+  Future<Either<Failure, List<PostEntity>>> getUserPosts(String userId);
 }

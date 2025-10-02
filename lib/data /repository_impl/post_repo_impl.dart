@@ -24,4 +24,13 @@ class PostRepositoryImpl implements PostRepository {
     final result = await dataSource.createPost(title, content);
     return result.fold((failure) => Left(failure), (model) => Right(null));
   }
+
+  @override
+  Future<Either<Failure, List<PostEntity>>> getUserPosts(String userId) async {
+    final result = await dataSource.getUserPosts(userId);
+    return result.fold(
+      (failure) => Left(failure),
+      (models) => Right(models.map((m) => m.toEntity()).toList()),
+    );
+  }
 }

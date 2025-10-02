@@ -7,6 +7,7 @@ class PostModel extends PostEntity {
     required super.content,
     required super.author,
     required super.createdAt,
+    required super.status,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
@@ -15,7 +16,9 @@ class PostModel extends PostEntity {
       title: json['title'] as String,
       content: json['content'] as String,
       author: json['author'] as String,
+
       createdAt: DateTime.parse(json['created_at'] as String),
+      status: json['status'],
     );
   }
 
@@ -26,6 +29,17 @@ class PostModel extends PostEntity {
       "content": content,
       "author": author,
       "created_at": createdAt.toIso8601String(),
+      "status": status,
     };
   }
+
+  PostEntity toEntity() => PostEntity(
+    id: id,
+    title: title,
+
+    content: content,
+    author: author,
+    createdAt: createdAt,
+    status: status,
+  );
 }

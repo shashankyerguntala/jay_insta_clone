@@ -22,22 +22,16 @@ class PostDataSource {
   Future<Either<Failure, void>> createPost(String title, String content) async {
     final response = await dioClient.postRequest(
       ApiConstants.createPost,
-      data: {
-        "title":title,
-        "content":content
-      },
+      data: {"title": title, "content": content},
     );
     return response.fold((failure) => Left(failure), (data) => Right(null));
   }
 
   Future<Either<Failure, List<PostModel>>> getUserPosts(String userId) async {
     final response = await dioClient.getRequest(ApiConstants.userPosts(userId));
-    return response.fold(
-      (l) => Left(l),
-      (data) {
-        final posts = (data as List).map((e) => PostModel.fromJson(e)).toList();
-        return Right(posts);
-      },
-    );
+    return response.fold((left) => Left(left), (data) {
+      final posts = (data as List).map((e) => PostModel.fromJson(e)).toList();
+      return Right(posts);
+    });
   }
 }

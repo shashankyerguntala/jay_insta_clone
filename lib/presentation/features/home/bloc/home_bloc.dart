@@ -10,21 +10,21 @@ final list = [
     title: "Flutter UI is awesome",
     content: "Building custom widgets is easier than you think.",
     author: "john_doe",
-    createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
+    createdAt: DateTime.now().subtract(const Duration(minutes: 5)), status: '',
   ),
   PostModel(
     id: 2,
     title: "Dark mode or light mode?",
     content: "I prefer dark mode for coding. What about you?",
     author: "jane_doe",
-    createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+    createdAt: DateTime.now().subtract(const Duration(hours: 1)), status: '',
   ),
   PostModel(
     id: 3,
     title: "Animations in Flutter",
     content: "Using AnimatedBuilder and Lottie makes apps feel alive!",
     author: "flutter_dev",
-    createdAt: DateTime.now().subtract(const Duration(hours: 3)),
+    createdAt: DateTime.now().subtract(const Duration(hours: 3)), status: '',
   ),
 ];
 
