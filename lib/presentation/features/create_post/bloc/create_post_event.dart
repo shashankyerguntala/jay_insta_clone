@@ -1,8 +1,18 @@
-part of 'create_post_bloc.dart';
+import 'package:equatable/equatable.dart';
 
-sealed class CreatePostEvent extends Equatable {
+abstract class CreatePostEvent extends Equatable {
   const CreatePostEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
+}
+
+class SubmitPostEvent extends CreatePostEvent {
+  final String title;
+  final String content;
+
+  const SubmitPostEvent({required this.title, required this.content});
+
+  @override
+  List<Object?> get props => [title, content];
 }

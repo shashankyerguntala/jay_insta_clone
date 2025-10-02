@@ -1,10 +1,30 @@
-part of 'create_post_bloc.dart';
+import 'package:equatable/equatable.dart';
 
-sealed class CreatePostState extends Equatable {
+abstract class CreatePostState extends Equatable {
   const CreatePostState();
-  
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-final class CreatePostInitial extends CreatePostState {}
+class CreatePostInitial extends CreatePostState {}
+
+class CreatePostLoading extends CreatePostState {}
+
+class CreatePostSuccess extends CreatePostState {
+  final String message;
+
+  const CreatePostSuccess({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class CreatePostError extends CreatePostState {
+  final String error;
+
+  const CreatePostError({required this.error});
+
+  @override
+  List<Object?> get props => [error];
+}

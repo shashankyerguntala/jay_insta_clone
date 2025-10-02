@@ -1,91 +1,93 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_in/screens/sign_in_screen.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/sign_up_appbar.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/sign_up_form.dart';
+import 'package:jay_insta_clone/core%20/di/di.dart';
+import '../bloc/sign_up_bloc.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
-}
-
-class _SignUpScreenState extends State<SignUpScreen> {
-  final formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  bool obscurePassword = true;
-  bool agreedToTerms = false;
-  bool isLoading = false;
-
-  void submit() {
-    if (formKey.currentState!.validate()) {
-      if (!agreedToTerms) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Please agree to terms of use and privacy policy'),
-            backgroundColor: ColorConstants.errorColor,
-          ),
-        );
-        return;
-      }
-
-      setState(() => isLoading = true);
-
-      Future.delayed(const Duration(seconds: 2), () {
-        setState(() => isLoading = false);
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Sign Up Successful!'),
-            backgroundColor: ColorConstants.successColor,
-          ),
-        );
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (ctx) => SignInScreen()),
-        );
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorConstants.backgroundColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SignUpAppBar(),
-              const SizedBox(height: 24),
-              SignUpForm(
-                formKey: formKey,
-                nameController: nameController,
-                emailController: emailController,
-                passwordController: passwordController,
-                obscurePassword: obscurePassword,
-                agreedToTerms: agreedToTerms,
-                onPasswordVisibilityToggle: () {
-                  setState(() {
-                    obscurePassword = !obscurePassword;
-                  });
-                },
-                onTermsToggle: (value) {
-                  setState(() {
-                    agreedToTerms = value ?? false;
-                  });
-                },
-                onSubmit: submit,
-                isLoading: isLoading,
+    final formKey = GlobalKey<FormState>();
+    final nameController = TextEditingController();
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+
+    return BlocProvider<SignUpBloc>(
+      create: (_) => di<SignUpBloc>(),
+      child: BlocListener<SignUpBloc, SignUpState>(
+        listener: (context, state) {
+          if (state is SignUpFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: ColorConstants.errorColor,
               ),
-            ],
-          ),
+            );
+          } else if (state is SignUpSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Sign Up Successful!'),
+                backgroundColor: ColorConstants.successColor,
+              ),
+            );
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const SignInScreen()),
+            );
+          }
+        },
+        child: BlocBuilder<SignUpBloc, SignUpState>(
+          builder: (context, state) {
+            final isLoading = state is SignUpLoading;
+            final obscurePassword = state is SignUpPasswordVisibilityChanged
+                ? state.isPasswordObscured
+                : true;
+
+            return Scaffold(
+              backgroundColor: ColorConstants.backgroundColor,
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SignUpAppBar(),
+                      const SizedBox(height: 24),
+                      SignUpForm(
+                        formKey: formKey,
+                        nameController: nameController,
+                        emailController: emailController,
+                        passwordController: passwordController,
+                        obscurePassword: obscurePassword,
+
+                        onPasswordVisibilityToggle: () {
+                          context.read<SignUpBloc>().add(ShowPasswordEvent());
+                        },
+
+                        onSubmit: () {
+                          if (formKey.currentState!.validate()) {
+                            context.read<SignUpBloc>().add(
+                              SignUpRequested(
+                                username: nameController.text.trim(),
+                                email: emailController.text.trim(),
+                                password: passwordController.text.trim(),
+                              ),
+                            );
+                          }
+                        },
+                        isLoading: isLoading,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

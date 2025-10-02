@@ -1,10 +1,31 @@
-part of 'home_bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:jay_insta_clone/domain/entity/post_entity.dart';
 
-sealed class HomeState extends Equatable {
+abstract class HomeState extends Equatable {
   const HomeState();
-  
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-final class HomeInitial extends HomeState {}
+class HomeInitial extends HomeState {}
+
+class HomeLoading extends HomeState {}
+
+class HomeLoaded extends HomeState {
+  final List<PostEntity> posts;
+
+  const HomeLoaded(this.posts);
+
+  @override
+  List<Object?> get props => [posts];
+}
+
+class HomeError extends HomeState {
+  final String message;
+
+  const HomeError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

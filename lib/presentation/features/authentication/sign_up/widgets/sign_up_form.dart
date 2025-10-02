@@ -9,9 +9,9 @@ class SignUpForm extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final bool obscurePassword;
-  final bool agreedToTerms;
+
   final VoidCallback onPasswordVisibilityToggle;
-  final ValueChanged<bool?> onTermsToggle;
+
   final VoidCallback onSubmit;
   final bool isLoading;
 
@@ -22,9 +22,9 @@ class SignUpForm extends StatelessWidget {
     required this.emailController,
     required this.passwordController,
     required this.obscurePassword,
-    required this.agreedToTerms,
+
     required this.onPasswordVisibilityToggle,
-    required this.onTermsToggle,
+
     required this.onSubmit,
     required this.isLoading,
   });
@@ -68,24 +68,6 @@ class SignUpForm extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            Row(
-              children: [
-                Checkbox(
-                  value: agreedToTerms,
-                  activeColor: ColorConstants.primaryColor,
-                  onChanged: onTermsToggle,
-                ),
-                Expanded(
-                  child: Text(
-                    StringConstants.terms,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: ColorConstants.textSecondaryColor,
-                    ),
-                  ),
-                ),
-              ],
-            ),
             const SizedBox(height: 12),
             Row(
               spacing: 4,

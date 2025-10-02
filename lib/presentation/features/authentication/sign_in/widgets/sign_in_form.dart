@@ -6,7 +6,7 @@ import 'package:jay_insta_clone/presentation/features/authentication/sign_up/wid
 
 class SignInForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
-  final TextEditingController nameController;
+
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final bool obscurePassword;
@@ -19,7 +19,7 @@ class SignInForm extends StatelessWidget {
   const SignInForm({
     super.key,
     required this.formKey,
-    required this.nameController,
+
     required this.emailController,
     required this.passwordController,
     required this.obscurePassword,

@@ -1,23 +1,33 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'sign_up_event.dart';
-import 'sign_up_state.dart';
+import 'package:equatable/equatable.dart';
+import 'package:jay_insta_clone/domain/entity/user_entity.dart';
+import 'package:jay_insta_clone/domain/usecase/auth_usecase.dart';
+
+part 'sign_up_event.dart';
+part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  SignUpBloc() : super(SignUpInitial()) {
-    on<SignUpSubmitted>(onSignUpSubmitted);
-  }
+  final AuthUsecase authUsecase;
+  bool isPasswordObscured = true;
 
-  Future<void> onSignUpSubmitted(
-    SignUpSubmitted event,
-    Emitter<SignUpState> emit,
-  ) async {
-    emit(SignUpLoading());
-    try {
+  SignUpBloc({required this.authUsecase}) : super(const SignUpInitial()) {
+    on<ShowPasswordEvent>((event, emit) {
+      isPasswordObscured = !isPasswordObscured;
+      emit(SignUpPasswordVisibilityChanged(isPasswordObscured));
+    });
 
+    on<SignUpRequested>((event, emit) async {
+      emit(SignUpLoading());
+      final result = await authUsecase.register(
+        username: event.username,
+        email: event.email,
+        password: event.password,
+      );
 
-
-    } catch (e) {
-      emit(SignUpFailure(e.toString()));
-    }
+      result.fold(
+        (failure) => emit(SignUpFailure(failure.message)),
+        (user) => emit(SignUpSuccess(user)),
+      );
+    });
   }
 }

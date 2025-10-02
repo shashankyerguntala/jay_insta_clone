@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:jay_insta_clone/presentation/features/authentication/sign_in/screens/sign_in_screen.dart';
 
-void main() {
+import 'package:google_fonts/google_fonts.dart';
+import 'package:jay_insta_clone/core%20/di/di.dart';
+import 'package:jay_insta_clone/core%20/routes/go_routes.dart';
+
+GoRoutes goRoutes = GoRoutes();
+final Di getIt = Di();
+void main() async {
+  await getIt.init();
   runApp(const MyApp());
 }
 
@@ -11,13 +16,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: goRoutes.goRoutes,
       title: 'Flutter Demo',
 
       theme: ThemeData(textTheme: GoogleFonts.manropeTextTheme()),
       debugShowCheckedModeBanner: false,
-      home: SignInScreen(),
     );
   }
 }
-

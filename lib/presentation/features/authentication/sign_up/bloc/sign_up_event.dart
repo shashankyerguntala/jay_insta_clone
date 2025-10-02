@@ -1,23 +1,25 @@
-import 'package:equatable/equatable.dart';
+part of 'sign_up_bloc.dart';
 
-abstract class SignUpEvent extends Equatable {
+sealed class SignUpEvent extends Equatable {
   const SignUpEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-class SignUpSubmitted extends SignUpEvent {
+class SignUpRequested extends SignUpEvent {
+  final String username;
   final String email;
   final String password;
-  final String username;
 
-  const SignUpSubmitted({
+  const SignUpRequested({
+    required this.username,
     required this.email,
     required this.password,
-    required this.username,
   });
 
   @override
-  List<Object?> get props => [email, password, username];
+  List<Object?> get props => [username, email, password];
 }
+
+class ShowPasswordEvent extends SignUpEvent {}
