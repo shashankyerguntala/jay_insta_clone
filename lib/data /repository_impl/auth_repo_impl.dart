@@ -27,7 +27,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> register({
+  Future<Either<Failure, String>> register({
     required String username,
     required String email,
     required String password,
@@ -38,9 +38,6 @@ class AuthRepositoryImpl implements AuthRepository {
       password: password,
     );
 
-    return result.fold(
-      (failure) => Left(failure),
-      (data) => Right(UserModel.fromJson(data)),
-    );
+    return result.fold((failure) => Left(failure), (data) => Right(data));
   }
 }

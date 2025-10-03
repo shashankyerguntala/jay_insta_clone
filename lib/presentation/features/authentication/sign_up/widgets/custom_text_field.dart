@@ -55,9 +55,9 @@ class CustomTextField extends StatelessWidget {
         if (value == null || value.isEmpty) {
           return validatorMsg;
         }
-        if (emailValidator && !RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-          return StringConstants.emailInvalid;
-        }
+        // if (emailValidator && !RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+        //   return StringConstants.emailInvalid;
+        // }
         if (value.length < 6) {
           return StringConstants.passwordShort;
         }

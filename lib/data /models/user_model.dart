@@ -5,7 +5,7 @@ class UserModel extends User {
     required super.username,
     required super.email,
     required super.role,
-    required super.isModerator,
+    // required super.isModerator,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -13,7 +13,7 @@ class UserModel extends User {
       username: json["username"] ?? "",
       email: json["email"] ?? "",
       role: json["role"] ?? "",
-      isModerator: json["isModerator"] ?? false,
+      // isModerator: json["isModerator"] ?? false,
     );
   }
 
@@ -22,7 +22,7 @@ class UserModel extends User {
       "username": username,
       "email": email,
       "role": role,
-      "isModerator": isModerator,
+      // "isModerator": isModerator,
     };
   }
 }

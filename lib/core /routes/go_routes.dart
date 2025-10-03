@@ -105,7 +105,7 @@ class GoRoutes {
                   username: 'shash',
                   email: 'shash@gmail.com',
                   role: 'user',
-                  isModerator: false,
+                  // isModerator: false,
                 );
               }
               return HomeScreen(user: user);

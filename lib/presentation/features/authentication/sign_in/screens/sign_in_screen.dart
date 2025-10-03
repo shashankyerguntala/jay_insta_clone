@@ -37,7 +37,7 @@ class SignInScreen extends StatelessWidget {
                 username: 'shash',
                 email: 'shash@gmail.com',
                 role: 'admin',
-                isModerator: false,
+                // isModerator: false,
               ),
             );
           }

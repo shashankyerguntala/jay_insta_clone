@@ -2,7 +2,7 @@ class ApiConstants {
   static const String baseUrl = "http://localhost:8080";
 
   //! Auth
-  static const String register = "/api/auth/register";
+  static const String register = "/api/users/signup";
   static const String login = "/api/auth/login";
 
   //! Users
@@ -14,6 +14,7 @@ class ApiConstants {
   static String userDeclinededPosts(String id) =>
       '/api/users/{id}/posts/declined';
   static String userPendingPosts(String id) => '/api/users/{id}/posts/pending';
+  static String userProfile(String id) => '/profile';
 
   //! Posts
   static const String createPost = "/api/posts";

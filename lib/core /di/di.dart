@@ -42,7 +42,7 @@ class Di {
     di.registerLazySingleton<ProfileRepository>(
       () => ProfileRepositoryImpl(profileDataSource: di()),
     );
-    di.registerLazySingleton(() => ProfileUsecase(di()));
+    di.registerLazySingleton(() => ProfileUsecase(repository: di()));
     di.registerLazySingleton(() => ProfileBloc(profileUsecase: di()));
   }
 }

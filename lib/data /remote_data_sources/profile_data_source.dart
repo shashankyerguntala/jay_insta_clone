@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:jay_insta_clone/core%20/constants/api_constants.dart';
 import 'package:jay_insta_clone/core%20/network/dio_client.dart';
 import 'package:jay_insta_clone/core%20/network/failure.dart';
-
 import 'package:jay_insta_clone/data%20/models/post_model.dart';
 
 class ProfileDataSource {
@@ -65,5 +64,18 @@ class ProfileDataSource {
         return Left(Failure("Parsing error: ${e.toString()}"));
       }
     });
+  }
+
+  Future<Either<Failure, Map<String, dynamic>>> getUserProfle(
+    String userId,
+  ) async {
+    final response = await dioClient.getRequest(
+      ApiConstants.userProfile(userId),
+    );
+
+    return response.fold(
+      (failure) => Left((failure)),
+      (data) => right(data as Map<String, dynamic>),
+    );
   }
 }

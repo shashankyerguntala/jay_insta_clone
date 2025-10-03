@@ -15,7 +15,7 @@ class AuthUsecase {
     return response;
   }
 
-  Future<Either<Failure, User>> register({
+  Future<Either<Failure, String>> register({
     required String username,
     required String email,
     required String password,

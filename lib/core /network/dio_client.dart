@@ -41,14 +41,9 @@ class DioClient {
   Future<Either<Failure, dynamic>> postRequest(
     String endpoint, {
     Map<String, dynamic>? data,
-    Map<String, dynamic>? headers,
   }) async {
     try {
-      final response = await dio.post(
-        endpoint,
-        data: data,
-        options: Options(headers: headers),
-      );
+      final response = await dio.post(endpoint, data: data);
       return Right(response.data);
     } on DioException catch (e) {
       return Left(
