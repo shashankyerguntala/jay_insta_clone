@@ -1,10 +1,36 @@
-part of 'profile_bloc.dart';
+import 'package:equatable/equatable.dart';
 
-sealed class ProfileState extends Equatable {
+import 'package:jay_insta_clone/domain/entity/post_entity.dart';
+
+abstract class ProfileState extends Equatable {
   const ProfileState();
-  
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-final class ProfileInitial extends ProfileState {}
+class ProfileInitial extends ProfileState {}
+
+class ProfileLoading extends ProfileState {}
+
+class ProfileLoaded extends ProfileState {
+  final List<PostEntity> posts;
+
+  const ProfileLoaded(this.posts);
+
+  @override
+  List<Object?> get props => [posts];
+}
+
+class ProfileError extends ProfileState {
+  final String message;
+
+  const ProfileError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class ProfileSignedOut extends ProfileState {}
+
+class ProfileModeratorSuccess extends ProfileState {}

@@ -1,8 +1,36 @@
-part of 'profile_bloc.dart';
+import 'package:equatable/equatable.dart';
 
-sealed class ProfileEvent extends Equatable {
+abstract class ProfileEvent extends Equatable {
   const ProfileEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
+
+class FetchApprovedPostsEvent extends ProfileEvent {
+  final String userId;
+  const FetchApprovedPostsEvent(this.userId);
+
+  @override
+  List<Object?> get props => [userId];
+}
+
+class FetchDeclinedPostsEvent extends ProfileEvent {
+  final String userId;
+  const FetchDeclinedPostsEvent(this.userId);
+
+  @override
+  List<Object?> get props => [userId];
+}
+
+class FetchPendingPostsEvent extends ProfileEvent {
+  final String userId;
+  const FetchPendingPostsEvent(this.userId);
+
+  @override
+  List<Object?> get props => [userId];
+}
+
+class SignOutEvent extends ProfileEvent {}
+
+class BecomeModeratorEvent extends ProfileEvent {}

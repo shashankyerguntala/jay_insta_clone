@@ -117,7 +117,7 @@ class GoRoutes {
           ),
           GoRoute(
             path: '/profile',
-            builder: (context, state) => const ProfileScreen(),
+            builder: (context, state) => const ProfileScreen(userId: '123'),
           ),
         ],
       ),

@@ -5,7 +5,7 @@ class PostsGrid extends StatelessWidget {
   final String status;
   const PostsGrid({super.key, required this.status});
 
-  List<Map<String, dynamic>> _getPostsByStatus(String status) {
+  List<Map<String, dynamic>> getPostsByStatus(String status) {
     final mockPosts = [
       {
         'title': 'Flutter Tips',
@@ -41,7 +41,7 @@ class PostsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final posts = _getPostsByStatus(status);
+    final posts = getPostsByStatus(status);
 
     if (posts.isEmpty) {
       return Center(
@@ -55,7 +55,7 @@ class PostsGrid extends StatelessWidget {
                   ? Icons.hourglass_empty
                   : Icons.cancel_outlined,
               size: 64,
-              color: Colors.grey.withOpacity(0.5),
+              color: const Color.fromARGB(128, 158, 158, 158),
             ),
             const SizedBox(height: 16),
             Text(

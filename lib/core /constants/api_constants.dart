@@ -9,6 +9,11 @@ class ApiConstants {
   static String getProfile(String id) => "/api/users/$id";
   static String deleteUser(String id) => "/api/users/$id";
   static String userPosts(String id) => "/api/users/$id/posts";
+  static String userApprovedPosts(String id) =>
+      '/api/users/{id}/posts/approved';
+  static String userDeclinededPosts(String id) =>
+      '/api/users/{id}/posts/declined';
+  static String userPendingPosts(String id) => '/api/users/{id}/posts/pending';
 
   //! Posts
   static const String createPost = "/api/posts";
