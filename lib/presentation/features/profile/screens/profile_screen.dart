@@ -67,13 +67,13 @@ class ProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
+                margin: const EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: ColorConstants.backgroundColor,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.04),
+                      color: Colors.black.withAlpha(10),
                       blurRadius: 10,
                       offset: const Offset(0, 2),
                     ),
@@ -84,7 +84,7 @@ class ProfileScreen extends StatelessWidget {
                   unselectedLabelColor: ColorConstants.textSecondaryColor,
                   indicator: BoxDecoration(
                     color: ColorConstants.primaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
                   indicatorSize: TabBarIndicatorSize.tab,
                   padding: EdgeInsets.all(4),
@@ -111,5 +111,3 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
-
-/// Small widget for each tab

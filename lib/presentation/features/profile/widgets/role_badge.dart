@@ -34,7 +34,7 @@ class RoleBadge extends StatelessWidget {
         roleText = "Super Admin";
         break;
       default:
-        roleColor = ColorConstants.primaryColor;
+        roleColor = const Color.fromARGB(255, 97, 97, 97);
         roleIcon = Icons.person;
         roleText = "User";
     }
@@ -43,9 +43,9 @@ class RoleBadge extends StatelessWidget {
         ? Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: roleColor.withOpacity(0.1),
+              color: roleColor.withAlpha(20),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: roleColor.withOpacity(0.3), width: 1.5),
+              border: Border.all(color: roleColor.withAlpha(30), width: 1.5),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -71,7 +71,7 @@ class RoleBadge extends StatelessWidget {
                   border: Border.all(color: roleColor, width: 3),
                   boxShadow: [
                     BoxShadow(
-                      color: roleColor.withOpacity(0.3),
+                      color: roleColor.withAlpha(30),
                       blurRadius: 12,
                       spreadRadius: 2,
                     ),

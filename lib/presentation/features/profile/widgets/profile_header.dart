@@ -5,7 +5,6 @@ import 'package:jay_insta_clone/presentation/features/profile/widgets/sign_out_d
 
 import 'role_badge.dart';
 
-
 class ProfileHeader extends StatelessWidget {
   final String userRole;
   final bool hasRequestedModerator;
@@ -32,7 +31,7 @@ class ProfileHeader extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: ColorConstants.primaryColor.withOpacity(0.08),
+            color: ColorConstants.primaryColor.withAlpha(8),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -40,7 +39,7 @@ class ProfileHeader extends StatelessWidget {
       ),
       child: Column(
         children: [
-          RoleBadge(userRole: userRole),
+          RoleBadge(userRole: 'moderator'),
           const SizedBox(height: 16),
           const Text(
             "Shashank Y",
@@ -66,9 +65,17 @@ class ProfileHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildStatColumn("42", "Posts"),
-              Container(height: 40, width: 1, color: ColorConstants.borderColor),
+              Container(
+                height: 40,
+                width: 1,
+                color: ColorConstants.borderColor,
+              ),
               _buildStatColumn("8", "Approved"),
-              Container(height: 40, width: 1, color: ColorConstants.borderColor),
+              Container(
+                height: 40,
+                width: 1,
+                color: ColorConstants.borderColor,
+              ),
               _buildStatColumn("3", "Pending"),
             ],
           ),
@@ -80,17 +87,30 @@ class ProfileHeader extends StatelessWidget {
                     ? Container(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         decoration: BoxDecoration(
-                          color: Colors.orange.withOpacity(0.1),
+                          color: Colors.orange.withAlpha(10),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.orange.withOpacity(0.3), width: 2),
+                          border: Border.all(
+                            color: Colors.orange.withAlpha(30),
+                            width: 2,
+                          ),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
-                            Icon(Icons.hourglass_empty, color: Colors.orange, size: 20),
+                            Icon(
+                              Icons.hourglass_empty,
+                              color: Colors.orange,
+                              size: 20,
+                            ),
                             SizedBox(width: 8),
-                            Text("Moderator Request Pending",
-                                style: TextStyle(color: Colors.orange, fontWeight: FontWeight.w600, fontSize: 15)),
+                            Text(
+                              "Moderator Request Pending",
+                              style: TextStyle(
+                                color: Colors.orange,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                              ),
+                            ),
                           ],
                         ),
                       )
@@ -99,18 +119,32 @@ class ProfileHeader extends StatelessWidget {
                           backgroundColor: ColorConstants.primaryColor,
                           foregroundColor: Colors.white,
                           elevation: 0,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
-                        onPressed: () => ModeratorRequestDialog.show(context, onModeratorRequest),
+                        onPressed: () => ModeratorRequestDialog.show(
+                          context,
+                          onModeratorRequest,
+                        ),
                         icon: const Icon(Icons.shield_outlined, size: 20),
-                        label: const Text("Become a Moderator", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+                        label: const Text(
+                          "Become a Moderator",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
               ),
               const SizedBox(width: 12),
               Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: ColorConstants.borderColor, width: 2),
+                  border: Border.all(
+                    color: ColorConstants.borderColor,
+                    width: 2,
+                  ),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: IconButton(
@@ -129,11 +163,23 @@ class ProfileHeader extends StatelessWidget {
   Widget _buildStatColumn(String count, String label) {
     return Column(
       children: [
-        Text(count, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: ColorConstants.textPrimaryColor)),
+        Text(
+          count,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: ColorConstants.textPrimaryColor,
+          ),
+        ),
         const SizedBox(height: 4),
-        Text(label, style: TextStyle(fontSize: 13, color: ColorConstants.textSecondaryColor)),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 13,
+            color: ColorConstants.textSecondaryColor,
+          ),
+        ),
       ],
     );
   }
 }
-
