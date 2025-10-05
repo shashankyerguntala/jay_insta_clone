@@ -9,7 +9,7 @@ class DioClient {
   DioClient()
     : dio = Dio(
         BaseOptions(
-          baseUrl: 'https://gifted-hisako-nearly.ngrok-free.dev',
+          baseUrl: 'https://isadora-eupneic-kaden.ngrok-free.dev',
           connectTimeout: const Duration(seconds: 10),
           receiveTimeout: const Duration(seconds: 10),
           headers: {"Content-Type": "application/json"},

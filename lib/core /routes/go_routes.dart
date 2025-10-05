@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 import 'package:jay_insta_clone/domain/entity/user_entity.dart';
+import 'package:jay_insta_clone/presentation/features/admin/screens/admin_screen.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_in/screens/sign_in_screen.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/screens/sign_up_screen.dart';
 import 'package:jay_insta_clone/presentation/features/create_post/screens/create_post.dart';
@@ -9,10 +10,11 @@ import 'package:jay_insta_clone/presentation/features/home/screens/home_screen.d
 import 'package:jay_insta_clone/presentation/features/moderator/screen/moderator_screen.dart';
 
 import 'package:jay_insta_clone/presentation/features/profile/screens/profile_screen.dart';
+import 'package:jay_insta_clone/presentation/features/super_admin/screens/super_admin_screen.dart';
 
 class GoRoutes {
   final GoRouter goRoutes = GoRouter(
-    initialLocation: '/profile',
+    initialLocation: '/signin',
     routes: [
       ShellRoute(
         builder: (context, state, child) {
@@ -127,6 +129,11 @@ class GoRoutes {
       GoRoute(
         path: '/moderator',
         builder: (context, state) => ModeratorScreen(),
+      ),
+      GoRoute(path: '/admin', builder: (context, state) => AdminScreen()),
+      GoRoute(
+        path: '/superadmin',
+        builder: (context, state) => SuperAdminScreen(),
       ),
     ],
   );

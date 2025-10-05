@@ -61,7 +61,6 @@ class ProfileHeader extends StatelessWidget {
           const SizedBox(height: 12),
           RoleBadge(userRole: userRole, isTextBadge: true),
           const SizedBox(height: 20),
-
           Row(
             children: [
               Expanded(
