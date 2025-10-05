@@ -6,12 +6,13 @@ import 'package:jay_insta_clone/presentation/features/authentication/sign_in/scr
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/screens/sign_up_screen.dart';
 import 'package:jay_insta_clone/presentation/features/create_post/screens/create_post.dart';
 import 'package:jay_insta_clone/presentation/features/home/screens/home_screen.dart';
+import 'package:jay_insta_clone/presentation/features/moderator/screen/moderator_screen.dart';
 
 import 'package:jay_insta_clone/presentation/features/profile/screens/profile_screen.dart';
 
 class GoRoutes {
   final GoRouter goRoutes = GoRouter(
-    initialLocation: '/home',
+    initialLocation: '/profile',
     routes: [
       ShellRoute(
         builder: (context, state, child) {
@@ -123,6 +124,10 @@ class GoRoutes {
       ),
       GoRoute(path: '/signin', builder: (context, state) => SignInScreen()),
       GoRoute(path: '/signup', builder: (context, state) => SignUpScreen()),
+      GoRoute(
+        path: '/moderator',
+        builder: (context, state) => ModeratorScreen(),
+      ),
     ],
   );
 }

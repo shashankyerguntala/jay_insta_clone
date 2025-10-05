@@ -15,7 +15,7 @@ class AuthRemoteDataSource {
     required String password,
   }) async {
     final result = await dioClient.postRequest(
-      'localhost:8080/api/users/signup',
+      '/api/users/signup',
       data: {"username": username, "email": email, "password": password},
     );
 
@@ -31,7 +31,7 @@ class AuthRemoteDataSource {
     required String password,
   }) async {
     final result = await dioClient.postRequest(
-      'localhost:8080/api/auth/login',
+      '/api/auth/login',
       data: {"email": email, "password": password},
     );
 

@@ -61,25 +61,7 @@ class ProfileHeader extends StatelessWidget {
           const SizedBox(height: 12),
           RoleBadge(userRole: userRole, isTextBadge: true),
           const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildStatColumn("42", "Posts"),
-              Container(
-                height: 40,
-                width: 1,
-                color: ColorConstants.borderColor,
-              ),
-              _buildStatColumn("8", "Approved"),
-              Container(
-                height: 40,
-                width: 1,
-                color: ColorConstants.borderColor,
-              ),
-              _buildStatColumn("3", "Pending"),
-            ],
-          ),
-          const SizedBox(height: 20),
+
           Row(
             children: [
               Expanded(
@@ -157,29 +139,6 @@ class ProfileHeader extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildStatColumn(String count, String label) {
-    return Column(
-      children: [
-        Text(
-          count,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: ColorConstants.textPrimaryColor,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 13,
-            color: ColorConstants.textSecondaryColor,
-          ),
-        ),
-      ],
     );
   }
 }

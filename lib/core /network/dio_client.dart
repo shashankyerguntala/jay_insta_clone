@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dartz/dartz.dart';
-import 'package:jay_insta_clone/core%20/constants/api_constants.dart';
+
 import 'package:jay_insta_clone/core%20/network/failure.dart';
 
 class DioClient {
@@ -9,7 +9,7 @@ class DioClient {
   DioClient()
     : dio = Dio(
         BaseOptions(
-          baseUrl: ApiConstants.baseUrl,
+          baseUrl: 'https://gifted-hisako-nearly.ngrok-free.dev',
           connectTimeout: const Duration(seconds: 10),
           receiveTimeout: const Duration(seconds: 10),
           headers: {"Content-Type": "application/json"},
@@ -80,6 +80,26 @@ class DioClient {
     try {
       final response = await dio.delete(
         endpoint,
+        options: Options(headers: headers),
+      );
+      return Right(response.data);
+    } on DioException catch (e) {
+      return Left(
+        Failure(e.response?.data["message"] ?? e.message ?? "Unknown error"),
+      );
+    }
+  }
+
+  //!patch
+  Future<Either<Failure, dynamic>> patchRequest(
+    String endpoint, {
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      final response = await dio.patch(
+        endpoint,
+        data: data,
         options: Options(headers: headers),
       );
       return Right(response.data);
