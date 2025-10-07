@@ -1,34 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
-
+import 'package:jay_insta_clone/domain/entity/post_entity.dart';
 import 'comment_card.dart';
 
 class PostCard extends StatelessWidget {
-  final Map<String, dynamic> post;
+  final PostEntity post;
 
   const PostCard({super.key, required this.post});
-
-  Color _getStatusColor() {
-    switch (post['status']) {
-      case 'pending':
-        return Colors.orange;
-      case 'declined':
-        return ColorConstants.errorColor;
-      default:
-        return ColorConstants.successColor;
-    }
-  }
-
-  String _getStatusText() {
-    switch (post['status']) {
-      case 'pending':
-        return "Pending";
-      case 'declined':
-        return "Declined";
-      default:
-        return "Approved";
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +19,7 @@ class PostCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.06),
+              color: Colors.black.withAlpha(6),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -56,7 +34,7 @@ class PostCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      post['title'],
+                      post.title,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -66,33 +44,11 @@ class PostCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: _getStatusColor().withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: _getStatusColor().withOpacity(0.3),
-                      ),
-                    ),
-                    child: Text(
-                      _getStatusText(),
-                      style: TextStyle(
-                        color: _getStatusColor(),
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                 ],
               ),
               const SizedBox(height: 12),
               Text(
-                post['description'],
+                post.content,
                 style: TextStyle(
                   fontSize: 14,
                   color: ColorConstants.textSecondaryColor,
@@ -111,7 +67,7 @@ class PostCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    post['date'],
+                    "${post.createdAt}",
                     style: TextStyle(
                       fontSize: 12,
                       color: ColorConstants.textSecondaryColor,
@@ -125,7 +81,7 @@ class PostCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    "${post['comments']} comments",
+                    "${post.comments.length} comments",
                     style: TextStyle(
                       fontSize: 12,
                       color: ColorConstants.textSecondaryColor,
@@ -176,32 +132,11 @@ class PostCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      post['title'],
+                      post.title,
                       style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                         color: ColorConstants.textPrimaryColor,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: _getStatusColor().withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: _getStatusColor().withOpacity(0.3),
-                      ),
-                    ),
-                    child: Text(
-                      _getStatusText(),
-                      style: TextStyle(
-                        color: _getStatusColor(),
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -217,7 +152,7 @@ class PostCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    post['date'],
+                    "${post.createdAt}",
                     style: TextStyle(
                       fontSize: 13,
                       color: ColorConstants.textSecondaryColor,
@@ -227,7 +162,7 @@ class PostCard extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Text(
-                post['description'],
+                post.content,
                 style: const TextStyle(
                   fontSize: 16,
                   height: 1.6,
@@ -254,11 +189,11 @@ class PostCard extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: ColorConstants.primaryLightColor.withOpacity(0.2),
+                      color: ColorConstants.primaryLightColor.withAlpha(20),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      "${post['comments']}",
+                      "${post.comments.length}",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -269,10 +204,7 @@ class PostCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              ...List.generate(
-                post['comments'].clamp(0, 5),
-                (index) => CommentCard(),
-              ),
+              ...post.comments.map((comment) => CommentCard(comment: comment)),
             ],
           ),
         ),

@@ -8,13 +8,13 @@ abstract class ProfileEvent extends Equatable {
 }
 
 class FetchUserDetailsEvent extends ProfileEvent {
-  final String userId;
+  final int userId;
 
   const FetchUserDetailsEvent({required this.userId});
 }
 
 class FetchApprovedPostsEvent extends ProfileEvent {
-  final String userId;
+  final int userId;
   const FetchApprovedPostsEvent(this.userId);
 
   @override
@@ -22,7 +22,7 @@ class FetchApprovedPostsEvent extends ProfileEvent {
 }
 
 class FetchDeclinedPostsEvent extends ProfileEvent {
-  final String userId;
+  final int userId;
   const FetchDeclinedPostsEvent(this.userId);
 
   @override
@@ -30,7 +30,7 @@ class FetchDeclinedPostsEvent extends ProfileEvent {
 }
 
 class FetchPendingPostsEvent extends ProfileEvent {
-  final String userId;
+  final int userId;
   const FetchPendingPostsEvent(this.userId);
 
   @override

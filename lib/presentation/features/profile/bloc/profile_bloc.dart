@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dartz/dartz.dart';
-import 'package:jay_insta_clone/core%20/network/failure.dart';
-import 'package:jay_insta_clone/domain/entity/post_entity.dart';
-import 'package:jay_insta_clone/domain/entity/user_entity.dart';
+
+import 'package:jay_insta_clone/core%20/shared_prefs/auth_local_storage.dart';
+
 import 'package:jay_insta_clone/domain/usecase/profile_usecase.dart';
 
 import 'profile_event.dart';
@@ -27,15 +26,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) async {
     emit(ProfileLoading());
 
-    final Either<Failure, User> userResult = await profileUsecase
-        .getUserProfile(event.userId);
-
-    final Either<Failure, List<PostEntity>> approvedResult =
-        await profileUsecase.getApprovedPosts(event.userId);
-    final Either<Failure, List<PostEntity>> pendingResult = await profileUsecase
-        .getPendingPosts(event.userId);
-    final Either<Failure, List<PostEntity>> declinedResult =
-        await profileUsecase.getDeclinedPosts(event.userId);
+    final userResult = await profileUsecase.getUserProfile(event.userId);
+    final approvedResult = await profileUsecase.getApprovedPosts(event.userId);
+    final pendingResult = await profileUsecase.getPendingPosts(event.userId);
+    final declinedResult = await profileUsecase.getDeclinedPosts(event.userId);
 
     userResult.fold((failure) => emit(ProfileError(failure.message)), (user) {
       approvedResult.fold((failure) => emit(ProfileError(failure.message)), (
@@ -53,6 +47,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
                   approvedPosts: approvedPosts,
                   pendingPosts: pendingPosts,
                   declinedPosts: declinedPosts,
+                  isModeratorRequest: false,
                 ),
               );
             },
@@ -72,14 +67,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final result = await profileUsecase.getApprovedPosts(event.userId);
       result.fold(
         (failure) => emit(ProfileError(failure.message)),
-        (approvedPosts) => emit(
-          ProfileLoaded(
-            user: currentState.user,
-            approvedPosts: approvedPosts,
-            pendingPosts: currentState.pendingPosts,
-            declinedPosts: currentState.declinedPosts,
-          ),
-        ),
+        (approvedPosts) =>
+            emit(currentState.copyWith(approvedPosts: approvedPosts)),
       );
     }
   }
@@ -94,14 +83,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final result = await profileUsecase.getPendingPosts(event.userId);
       result.fold(
         (failure) => emit(ProfileError(failure.message)),
-        (pendingPosts) => emit(
-          ProfileLoaded(
-            user: currentState.user,
-            approvedPosts: currentState.approvedPosts,
-            pendingPosts: pendingPosts,
-            declinedPosts: currentState.declinedPosts,
-          ),
-        ),
+        (pendingPosts) =>
+            emit(currentState.copyWith(pendingPosts: pendingPosts)),
       );
     }
   }
@@ -116,14 +99,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final result = await profileUsecase.getDeclinedPosts(event.userId);
       result.fold(
         (failure) => emit(ProfileError(failure.message)),
-        (declinedPosts) => emit(
-          ProfileLoaded(
-            user: currentState.user,
-            approvedPosts: currentState.approvedPosts,
-            pendingPosts: currentState.pendingPosts,
-            declinedPosts: declinedPosts,
-          ),
-        ),
+        (declinedPosts) =>
+            emit(currentState.copyWith(declinedPosts: declinedPosts)),
       );
     }
   }
@@ -140,21 +117,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     BecomeModeratorEvent event,
     Emitter<ProfileState> emit,
   ) async {
-    await Future.delayed(const Duration(seconds: 1));
-
     final currentState = state;
     if (currentState is ProfileLoaded) {
-      final updatedUser = currentState.user;//! here update when the user becomes the moderator
-      emit(
-        ProfileLoaded(
-          user: updatedUser,
-          approvedPosts: currentState.approvedPosts,
-          pendingPosts: currentState.pendingPosts,
-          declinedPosts: currentState.declinedPosts,
-        ),
-      );
-    }
+      // immediately reflect request in UI
+      emit(currentState.copyWith(isModeratorRequest: true));
 
-    emit(ProfileModeratorSuccess());
+      final uid = await AuthLocalStorage.getUid();
+      final result = await profileUsecase.sendModeratorRequest(uid!);
+
+      result.fold((failure) => emit(ProfileError(failure.message)), (_) {
+        emit(
+          ProfileModeratorSuccess(
+            user: currentState.user,
+            approvedPosts: currentState.approvedPosts,
+            pendingPosts: currentState.pendingPosts,
+            declinedPosts: currentState.declinedPosts,
+            isModeratorRequest: true,
+          ),
+        );
+      });
+    }
   }
 }

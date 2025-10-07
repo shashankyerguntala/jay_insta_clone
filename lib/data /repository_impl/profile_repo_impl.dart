@@ -10,39 +10,54 @@ class ProfileRepositoryImpl implements ProfileRepository {
   final ProfileDataSource profileDataSource;
 
   ProfileRepositoryImpl({required this.profileDataSource});
-
   @override
-  Future<Either<Failure, List<PostEntity>>> getApprovedPosts(
-    String userId,
-  ) async {
+  Future<Either<Failure, List<PostEntity>>> getApprovedPosts(int userId) async {
     final result = await profileDataSource.getApprovedPosts(userId);
-    return result.map(
-      (list) => list.map((post) => post.toEntity()).toList(),
-    ); //! no left right is handled here might thorw error
+
+    return result.fold(
+      (failure) => Left(failure),
+      (postModels) => Right(
+        postModels.map<PostEntity>((post) => post as PostEntity).toList(),
+      ),
+    );
   }
 
   @override
-  Future<Either<Failure, List<PostEntity>>> getPendingPosts(
-    String userId,
-  ) async {
+  Future<Either<Failure, List<PostEntity>>> getPendingPosts(int userId) async {
     final result = await profileDataSource.getPendingPosts(userId);
-    return result.map((list) => list.map((post) => post.toEntity()).toList());
+
+    return result.fold(
+      (failure) => Left(failure),
+      (postModels) => Right(
+        postModels.map<PostEntity>((post) => post as PostEntity).toList(),
+      ),
+    );
   }
 
   @override
-  Future<Either<Failure, List<PostEntity>>> getDeclinedPosts(
-    String userId,
-  ) async {
+  Future<Either<Failure, List<PostEntity>>> getDeclinedPosts(int userId) async {
     final result = await profileDataSource.getDeclinedPosts(userId);
-    return result.map((list) => list.map((post) => post.toEntity()).toList());
+
+    return result.fold(
+      (failure) => Left(failure),
+      (postModels) => Right(
+        postModels.map<PostEntity>((post) => post as PostEntity).toList(),
+      ),
+    );
   }
 
   @override
-  Future<Either<Failure, User>> getUserProfile(String userId) async {
+  Future<Either<Failure, UserEntity>> getUserProfile(int userId) async {
     final response = await profileDataSource.getUserProfle(userId);
     return response.fold(
       (failure) => left(failure),
       (data) => right(UserModel.fromJson(data)),
     );
+  }
+
+  @override
+  Future<Either<Failure, String>> sendModeratorRequest(int userId) async {
+    final response = await profileDataSource.sendModeratorRequest(userId);
+    return response.fold((failure) => left(failure), (data) => right(data));
   }
 }

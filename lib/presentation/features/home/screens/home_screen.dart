@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 import 'package:jay_insta_clone/core%20/di/di.dart';
 
 import 'package:jay_insta_clone/domain/entity/user_entity.dart';
+import 'package:jay_insta_clone/domain/usecase/send_comment_usecase.dart';
 import 'package:jay_insta_clone/presentation/features/home/bloc/home_event.dart';
+import 'package:jay_insta_clone/presentation/features/home/comment_bloc/bloc/comment_bloc.dart';
 
 import 'package:jay_insta_clone/presentation/features/home/widgets/post_card.dart';
-import 'package:jay_insta_clone/presentation/features/home/widgets/show_post_details.dart';
+import 'package:jay_insta_clone/presentation/features/home/widgets/post_details_sheet.dart';
 import '../bloc/home_bloc.dart';
 
 import '../bloc/home_state.dart';
 
 class HomeScreen extends StatefulWidget {
-  final User? user;
+  final UserEntity? user;
   const HomeScreen({super.key, required this.user});
 
   @override
@@ -23,8 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeBloc>(
-      create: (context) => HomeBloc(postUseCase: di())..add(FetchPostsEvent()),
-
+      create: (context) =>
+          HomeBloc(postUseCase: di(), commentUseCase: di())
+            ..add(FetchPostsEvent()),
       child: Scaffold(
         backgroundColor: const Color(0xFFF4F7FB),
         appBar: AppBar(
@@ -43,9 +47,11 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: EdgeInsets.only(right: 16.0),
               child: CircleAvatar(
+                backgroundColor: ColorConstants.highlightColor,
                 radius: 18,
-                backgroundImage: NetworkImage(
-                  "https://avatars.githubusercontent.com/u/1?v=4",
+                child: Icon(
+                  Icons.person,
+                  color: ColorConstants.primaryLightColor,
                 ),
               ),
             ),
@@ -67,12 +73,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: (context, index) {
                   final post = posts[index];
                   return PostCard(
-                    email: post.author,
+                    email: post.authorName,
                     caption: post.title,
                     description: post.content,
-                    commentsCount: 0,
+                    commentsCount: post.comments.length,
                     createdAt: post.createdAt,
-                    onTap: () => ShowPostDetails.showPostDetails(context, post),
+                    onTap: () => showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (_) => BlocProvider(
+                        create: (_) => CommentBloc(
+                          commentUseCase: di<SendCommentUseCase>(),
+                        ),
+                        child: PostDetailsSheet(
+                          post: post,
+                          userId: widget.user!.id,
+                        ),
+                      ),
+                    ),
                   );
                 },
               );

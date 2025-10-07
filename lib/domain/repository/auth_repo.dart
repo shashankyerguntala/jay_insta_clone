@@ -3,7 +3,7 @@ import 'package:jay_insta_clone/core%20/network/failure.dart';
 import 'package:jay_insta_clone/domain/entity/user_entity.dart';
 
 abstract class AuthRepository {
-  Future<Either<Failure, User>> login({
+  Future<Either<Failure, UserEntity>> login({
     required String email,
     required String password,
   });

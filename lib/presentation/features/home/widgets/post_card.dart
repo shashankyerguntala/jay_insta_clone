@@ -24,20 +24,51 @@ class PostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Card(
-        color: ColorConstants.borderColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        elevation: 4,
-        margin: const EdgeInsets.symmetric(vertical: 8),
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: ColorConstants.borderColor, width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: ColorConstants.primaryColor.withAlpha(5),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(16.0),
               child: Row(
                 children: [
-                  CircleAvatar(radius: 18, child: Text(email[0].toUpperCase())),
-                  const SizedBox(width: 10),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          ColorConstants.primaryColor,
+                          ColorConstants.primaryLightColor,
+                        ],
+                      ),
+                      shape: BoxShape.circle,
+                    ),
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.transparent,
+                      child: Text(
+                        email[0].toUpperCase(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,70 +76,111 @@ class PostCard extends StatelessWidget {
                         Text(
                           email,
                           style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            color: ColorConstants.textPrimaryColor,
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        const SizedBox(height: 3),
                         Text(
                           DateFormat('dd MMM, hh:mm a').format(createdAt),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 12,
-                            color: Colors.grey[600],
+                            color: ColorConstants.textSecondaryColor,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const Icon(Icons.more_horiz),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: ColorConstants.fillColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.more_horiz,
+                      size: 20,
+                      color: ColorConstants.textSecondaryColor,
+                    ),
+                  ),
                 ],
               ),
             ),
 
-            if (caption.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Text(
-                  caption,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+            if (caption.isNotEmpty || description.isNotEmpty)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (caption.isNotEmpty) ...[
+                      Text(
+                        caption,
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600,
+                          color: ColorConstants.textPrimaryColor,
+                          height: 1.4,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                    ],
+                    if (description.isNotEmpty) ...[
+                      Text(
+                        description,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: ColorConstants.textSecondaryColor,
+                          height: 1.5,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                  ],
                 ),
               ),
 
-            const SizedBox(height: 6),
-
-            if (description.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Text(description, style: const TextStyle(fontSize: 14)),
-              ),
-
-            const SizedBox(height: 12),
-
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: const BoxDecoration(
-                border: Border(top: BorderSide(color: Colors.grey, width: 0.2)),
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                color: ColorConstants.fillColor,
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 children: [
-                  Row(
-                    children: const [
-                      Icon(Icons.arrow_upward, size: 20, color: Colors.grey),
-                      SizedBox(width: 4),
-                      Text("12"),
-                      SizedBox(width: 8),
-                      Icon(Icons.arrow_downward, size: 20, color: Colors.grey),
-                    ],
-                  ),
-                  const SizedBox(width: 24),
-                  Icon(Icons.comment, size: 20, color: Colors.grey),
-                  const SizedBox(width: 4),
-                  Text(
-                    "$commentsCount comments",
-                    style: TextStyle(fontSize: 13, color: Colors.grey[700]),
+                  const SizedBox(width: 12),
+
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.chat_bubble_outline_rounded,
+                            size: 18,
+                            color: ColorConstants.textSecondaryColor,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            "$commentsCount ${commentsCount == 1 ? 'comment' : 'comments'}",
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: ColorConstants.textSecondaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

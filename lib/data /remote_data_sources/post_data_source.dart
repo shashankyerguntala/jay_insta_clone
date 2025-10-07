@@ -10,7 +10,7 @@ class PostDataSource {
   PostDataSource(this.dioClient);
 
   Future<Either<Failure, List<PostModel>>> getAllPosts() async {
-    final response = await dioClient.getRequest(ApiConstants.getPosts);
+    final response = await dioClient.getRequest(ApiConstants.getAllPosts);
     return response.fold((failure) => Left(failure), (data) {
       final list = (data as List)
           .map((json) => PostModel.fromJson(json))
@@ -19,12 +19,16 @@ class PostDataSource {
     });
   }
 
-  Future<Either<Failure, void>> createPost(String title, String content) async {
+  Future<Either<Failure, String>> createPost(
+    int uid,
+    String title,
+    String content,
+  ) async {
     final response = await dioClient.postRequest(
       ApiConstants.createPost,
-      data: {"title": title, "content": content},
+      data: {"userId": uid, "title": title, "content": content},
     );
-    return response.fold((failure) => Left(failure), (data) => Right(null));
+    return response.fold((failure) => Left(failure), (data) => Right(data));
   }
 
   Future<Either<Failure, List<PostModel>>> getUserPosts(String userId) async {

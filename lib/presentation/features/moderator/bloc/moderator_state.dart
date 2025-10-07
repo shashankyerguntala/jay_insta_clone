@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:jay_insta_clone/data%20/models/comment_model.dart';
-import 'package:jay_insta_clone/data%20/models/post_model.dart';
+import 'package:jay_insta_clone/domain/entity/comment_entity.dart';
+import 'package:jay_insta_clone/domain/entity/post_entity.dart';
 
 abstract class ModeratorState extends Equatable {
   const ModeratorState();
@@ -15,41 +15,42 @@ class ModeratorLoading extends ModeratorState {}
 class ModeratorError extends ModeratorState {
   final String message;
   const ModeratorError(this.message);
-
   @override
   List<Object?> get props => [message];
 }
 
-class PostsLoaded extends ModeratorState {
-  final List<PostModel> posts;
-  const PostsLoaded(this.posts);
+class ModeratorLoaded extends ModeratorState {
+  final List<PostEntity> posts;
+  final List<CommentEntity> comments;
+
+  const ModeratorLoaded({this.posts = const [], this.comments = const []});
+
+  ModeratorLoaded copyWith({
+    List<PostEntity>? posts,
+    List<CommentEntity>? comments,
+  }) {
+    return ModeratorLoaded(
+      posts: posts ?? this.posts,
+      comments: comments ?? this.comments,
+    );
+  }
 
   @override
-  List<Object?> get props => [posts];
+  List<Object?> get props => [posts, comments];
 }
 
 class PostActionSuccess extends ModeratorState {
-  final String postId;
+  final int postId;
   final String action;
   const PostActionSuccess(this.postId, this.action);
-
   @override
   List<Object?> get props => [postId, action];
 }
 
-class CommentsLoaded extends ModeratorState {
-  final List<CommentModel> comments;
-  const CommentsLoaded(this.comments);
-
-  @override
-  List<Object?> get props => [comments];
-}
-
 class CommentActionSuccess extends ModeratorState {
-  final String commentId;
+  final int commentId;
   final String action;
   const CommentActionSuccess(this.commentId, this.action);
-
   @override
   List<Object?> get props => [commentId, action];
 }

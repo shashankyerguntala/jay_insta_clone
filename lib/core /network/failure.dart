@@ -10,3 +10,7 @@ class ServerError extends Failure {
 class ClientError extends Failure {
   ClientError(super.message);
 }
+
+class UnauthorizedAccess extends Failure {
+  UnauthorizedAccess(super.message);
+}

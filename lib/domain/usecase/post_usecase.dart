@@ -12,8 +12,12 @@ class PostUseCase {
     return await repository.getAllPosts();
   }
 
-  Future<Either<Failure, void>> createPost(String title, String content) async {
-    return await repository.createPost(title, content);
+  Future<Either<Failure, String>> createPost(
+    int uid,
+    String title,
+    String content,
+  ) async {
+    return await repository.createPost(uid, title, content);
   }
 
   Future<Either<Failure, List<PostEntity>>> getUserPosts(String userId) async {

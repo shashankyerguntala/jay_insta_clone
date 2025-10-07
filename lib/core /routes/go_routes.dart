@@ -99,16 +99,16 @@ class GoRoutes {
             path: '/home',
             builder: (context, state) {
               final extra = state.extra;
-              final User user;
+              final UserEntity user;
 
-              if (extra != null && extra is User) {
+              if (extra != null && extra is UserEntity) {
                 user = extra;
               } else {
-                user = User(
+                user = UserEntity(
                   username: 'shash',
                   email: 'shash@gmail.com',
                   role: 'user',
-                  // isModerator: false,
+                  id: 0,
                 );
               }
               return HomeScreen(user: user);
@@ -116,11 +116,13 @@ class GoRoutes {
           ),
           GoRoute(
             path: '/create',
-            builder: (context, state) => const CreatePost(),
+            builder: (context, state) {
+              return CreatePost();
+            },
           ),
           GoRoute(
             path: '/profile',
-            builder: (context, state) => const ProfileScreen(userId: '123'),
+            builder: (context, state) => const ProfileScreen(),
           ),
         ],
       ),

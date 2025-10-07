@@ -45,7 +45,10 @@ class ModeratorRequestDialog {
               context.pop();
               onRequestSent();
             },
-            child: const Text("Send Request"),
+            child: const Text(
+              "Send Request",
+              style: TextStyle(color: ColorConstants.backgroundColor),
+            ),
           ),
         ],
       ),

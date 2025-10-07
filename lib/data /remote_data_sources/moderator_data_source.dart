@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:jay_insta_clone/core%20/constants/api_constants.dart';
 import 'package:jay_insta_clone/core%20/network/dio_client.dart';
 import 'package:jay_insta_clone/core%20/network/failure.dart';
 import 'package:jay_insta_clone/data%20/models/comment_model.dart';
@@ -10,7 +11,9 @@ class ModeratorDataSource {
   ModeratorDataSource({required this.dioClient});
 
   Future<Either<Failure, List<PostModel>>> getPendingPosts() async {
-    final response = await dioClient.getRequest("/api/moderator/pending-posts");
+    final response = await dioClient.getRequest(
+      "/api/moderation/posts/status/pending",
+    );
 
     return response.fold((failure) => Left(failure), (data) {
       try {
@@ -26,7 +29,7 @@ class ModeratorDataSource {
 
   Future<Either<Failure, List<CommentModel>>> getPendingComments() async {
     final response = await dioClient.getRequest(
-      "/api/moderator/pending-comments",
+      "/api/moderation/comments/status/pending",
     );
 
     return response.fold((failure) => Left(failure), (data) {
@@ -41,33 +44,40 @@ class ModeratorDataSource {
     });
   }
 
-  Future<Either<Failure, bool>> approvePost(String postId) async {
+  Future<Either<Failure, bool>> approvePost(int postId, int userId) async {
     final response = await dioClient.putRequest(
-      "/api/moderator/posts/$postId/approve",
+      ApiConstants.approvePost(postId),
+      data: {"reviewerId": userId, "action": "approved"},
     );
 
     return response.fold((failure) => Left(failure), (_) => const Right(true));
   }
 
-  Future<Either<Failure, bool>> rejectPost(String postId) async {
+  Future<Either<Failure, bool>> rejectPost(int postId, int userId) async {
     final response = await dioClient.putRequest(
-      "/api/moderator/posts/$postId/reject",
+      ApiConstants.rejectPost(postId),
+      data: {"reviewerId": userId, "action": "rejected"},
     );
 
     return response.fold((failure) => Left(failure), (_) => const Right(true));
   }
 
-  Future<Either<Failure, bool>> approveComment(String commentId) async {
+  Future<Either<Failure, bool>> approveComment(
+    int commentId,
+    int userId,
+  ) async {
     final response = await dioClient.putRequest(
-      "/api/moderator/comments/$commentId/approve",
+      ApiConstants.approveComment(commentId),
+      data: {"reviewerId": userId, "action": "approved"},
     );
 
     return response.fold((failure) => Left(failure), (_) => const Right(true));
   }
 
-  Future<Either<Failure, bool>> rejectComment(String commentId) async {
+  Future<Either<Failure, bool>> rejectComment(int commentId, int userId) async {
     final response = await dioClient.putRequest(
-      "/api/moderator/comments/$commentId/reject",
+      ApiConstants.rejectComment(commentId),
+      data: {"reviewerId": userId, "action": "rejected"},
     );
 
     return response.fold((failure) => Left(failure), (_) => const Right(true));

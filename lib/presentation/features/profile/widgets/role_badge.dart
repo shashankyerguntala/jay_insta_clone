@@ -17,25 +17,25 @@ class RoleBadge extends StatelessWidget {
     String roleText;
 
     switch (userRole) {
-      case "moderator":
+      case "MODERATOR":
         roleColor = Colors.blue;
         roleIcon = Icons.shield;
-        roleText = "Moderator";
+        roleText = "MODERATOR";
         break;
-      case "admin":
+      case "ADMIN":
         roleColor = Colors.purple;
         roleIcon = Icons.admin_panel_settings;
-        roleText = "Admin";
+        roleText = "ADMIN";
         break;
-      case "superadmin":
+      case "SUPER_ADMIN":
         roleColor = Colors.amber.shade700;
         roleIcon = Icons.workspace_premium;
-        roleText = "Super Admin";
+        roleText = "SUPER ADMIN";
         break;
       default:
         roleColor = const Color.fromARGB(255, 97, 97, 97);
         roleIcon = Icons.person;
-        roleText = "User";
+        roleText = "USER";
     }
 
     return isTextBadge
@@ -76,10 +76,13 @@ class RoleBadge extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: const CircleAvatar(
+                child: CircleAvatar(
+                  backgroundColor: roleColor.withAlpha(20),
                   radius: 50,
-                  backgroundImage: NetworkImage(
-                    "https://avatars.githubusercontent.com/u/1?v=4",
+                  child: Icon(
+                    Icons.person_3_rounded,
+                    size: 40,
+                    color: roleColor,
                   ),
                 ),
               ),

@@ -80,7 +80,7 @@ class _CreatePostState extends State<CreatePost> {
                             ? "Enter a title"
                             : null,
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 20),
                       TextFormField(
                         maxLength: 1000,
                         controller: descriptionController,

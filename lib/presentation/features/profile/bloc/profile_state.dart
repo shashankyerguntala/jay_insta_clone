@@ -15,19 +15,37 @@ class ProfileInitial extends ProfileState {}
 class ProfileLoading extends ProfileState {}
 
 class ProfileLoaded extends ProfileState {
-  final User user;
+  final UserEntity user;
   final List<PostEntity> approvedPosts;
   final List<PostEntity> pendingPosts;
   final List<PostEntity> declinedPosts;
+  final bool isModeratorRequest;
 
   const ProfileLoaded({
     required this.user,
     required this.approvedPosts,
     required this.pendingPosts,
     required this.declinedPosts,
+    this.isModeratorRequest = false,
   });
-  @override
-  List<Object?> get props => [user, approvedPosts, pendingPosts, declinedPosts];
+}
+
+extension ProfileLoadedCopy on ProfileLoaded {
+  ProfileLoaded copyWith({
+    UserEntity? user,
+    List<PostEntity>? approvedPosts,
+    List<PostEntity>? pendingPosts,
+    List<PostEntity>? declinedPosts,
+    bool? isModeratorRequest,
+  }) {
+    return ProfileLoaded(
+      user: user ?? this.user,
+      approvedPosts: approvedPosts ?? this.approvedPosts,
+      pendingPosts: pendingPosts ?? this.pendingPosts,
+      declinedPosts: declinedPosts ?? this.declinedPosts,
+      isModeratorRequest: isModeratorRequest ?? this.isModeratorRequest,
+    );
+  }
 }
 
 class ProfileError extends ProfileState {
@@ -41,4 +59,12 @@ class ProfileError extends ProfileState {
 
 class ProfileSignedOut extends ProfileState {}
 
-class ProfileModeratorSuccess extends ProfileState {}
+class ProfileModeratorSuccess extends ProfileLoaded {
+  const ProfileModeratorSuccess({
+    required super.user,
+    required super.approvedPosts,
+    required super.pendingPosts,
+    required super.declinedPosts,
+    required super.isModeratorRequest,
+  });
+}

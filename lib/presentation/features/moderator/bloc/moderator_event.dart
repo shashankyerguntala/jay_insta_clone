@@ -6,16 +6,11 @@ abstract class ModeratorEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FetchPosts extends ModeratorEvent {
-  final String status;
-  const FetchPosts({this.status = 'pending'});
-
-  @override
-  List<Object?> get props => [status];
-}
+class FetchAll extends ModeratorEvent {}
 
 class ApprovePost extends ModeratorEvent {
-  final String postId;
+  final int postId;
+
   const ApprovePost(this.postId);
 
   @override
@@ -23,7 +18,7 @@ class ApprovePost extends ModeratorEvent {
 }
 
 class RejectPost extends ModeratorEvent {
-  final String postId;
+  final int postId;
 
   const RejectPost(this.postId);
 
@@ -31,16 +26,8 @@ class RejectPost extends ModeratorEvent {
   List<Object?> get props => [postId];
 }
 
-class FetchComments extends ModeratorEvent {
-  final String status;
-  const FetchComments({this.status = 'pending'});
-
-  @override
-  List<Object?> get props => [status];
-}
-
 class ApproveComment extends ModeratorEvent {
-  final String commentId;
+  final int commentId;
   const ApproveComment(this.commentId);
 
   @override
@@ -48,7 +35,7 @@ class ApproveComment extends ModeratorEvent {
 }
 
 class RejectComment extends ModeratorEvent {
-  final String commentId;
+  final int commentId;
 
   const RejectComment(this.commentId);
 

@@ -9,9 +9,18 @@ class ProfileDataSource {
 
   ProfileDataSource({required this.dioClient});
 
-  Future<Either<Failure, List<PostModel>>> getApprovedPosts(
-    String userId,
-  ) async {
+  Future<Either<Failure, String>> sendModeratorRequest(int userId) async {
+    final response = await dioClient.postRequest(
+      ApiConstants.becomeModerator(userId),
+    );
+
+    return response.fold(
+      (left) => Left(Failure('Request Already exists!')),
+      (data) => Right(data),
+    );
+  }
+
+  Future<Either<Failure, List<PostModel>>> getApprovedPosts(int userId) async {
     final response = await dioClient.getRequest(
       ApiConstants.userApprovedPosts(userId),
     );
@@ -28,9 +37,7 @@ class ProfileDataSource {
     });
   }
 
-  Future<Either<Failure, List<PostModel>>> getPendingPosts(
-    String userId,
-  ) async {
+  Future<Either<Failure, List<PostModel>>> getPendingPosts(int userId) async {
     final response = await dioClient.getRequest(
       ApiConstants.userPendingPosts(userId),
     );
@@ -47,9 +54,7 @@ class ProfileDataSource {
     });
   }
 
-  Future<Either<Failure, List<PostModel>>> getDeclinedPosts(
-    String userId,
-  ) async {
+  Future<Either<Failure, List<PostModel>>> getDeclinedPosts(int userId) async {
     final response = await dioClient.getRequest(
       ApiConstants.userDeclinededPosts(userId),
     );
@@ -67,7 +72,7 @@ class ProfileDataSource {
   }
 
   Future<Either<Failure, Map<String, dynamic>>> getUserProfle(
-    String userId,
+    int userId,
   ) async {
     final response = await dioClient.getRequest(
       ApiConstants.userProfile(userId),

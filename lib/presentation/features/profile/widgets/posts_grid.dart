@@ -1,48 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:jay_insta_clone/domain/entity/post_entity.dart';
 import 'post_card.dart';
 
 class PostsGrid extends StatelessWidget {
   final String status;
-  const PostsGrid({super.key, required this.status});
+  final List<PostEntity> posts;
 
-  List<Map<String, dynamic>> getPostsByStatus(String status) {
-    final mockPosts = [
-      {
-        'title': 'Flutter Tips',
-        'description': 'Desc',
-        'date': '2d',
-        'comments': 12,
-        'status': 'approved',
-      },
-      {
-        'title': 'State Management',
-        'description': 'Desc',
-        'date': '5d',
-        'comments': 8,
-        'status': 'approved',
-      },
-      {
-        'title': 'Firebase Integration',
-        'description': 'Desc',
-        'date': '3h',
-        'comments': 0,
-        'status': 'pending',
-      },
-      {
-        'title': 'Controversial Post',
-        'description': 'Desc',
-        'date': '3d',
-        'comments': 0,
-        'status': 'declined',
-      },
-    ];
-    return mockPosts.where((post) => post['status'] == status).toList();
-  }
+  const PostsGrid({super.key, required this.status, required this.posts});
 
   @override
   Widget build(BuildContext context) {
-    final posts = getPostsByStatus(status);
-
     if (posts.isEmpty) {
       return Center(
         child: Column(
@@ -74,7 +41,10 @@ class PostsGrid extends StatelessWidget {
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: posts.length,
-      itemBuilder: (context, index) => PostCard(post: posts[index]),
+      itemBuilder: (context, index) {
+        final post = posts[index];
+        return PostCard(post: post);
+      },
     );
   }
 }

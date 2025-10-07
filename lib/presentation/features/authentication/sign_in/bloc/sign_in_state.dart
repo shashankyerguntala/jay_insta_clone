@@ -19,7 +19,7 @@ class SignInInitial extends SignInState {
 class SignInLoading extends SignInState {}
 
 class SignInSuccess extends SignInState {
-  final User user;
+  final UserEntity user;
 
   const SignInSuccess(this.user);
 

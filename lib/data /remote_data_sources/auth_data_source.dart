@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:jay_insta_clone/core%20/constants/api_constants.dart';
 
 import 'package:jay_insta_clone/core%20/network/dio_client.dart';
 import 'package:jay_insta_clone/core%20/network/failure.dart';
@@ -15,7 +16,7 @@ class AuthRemoteDataSource {
     required String password,
   }) async {
     final result = await dioClient.postRequest(
-      '/api/users/signup',
+      ApiConstants.register,
       data: {"username": username, "email": email, "password": password},
     );
 
@@ -31,7 +32,7 @@ class AuthRemoteDataSource {
     required String password,
   }) async {
     final result = await dioClient.postRequest(
-      '/api/auth/login',
+      ApiConstants.login,
       data: {"email": email, "password": password},
     );
 
@@ -41,3 +42,4 @@ class AuthRemoteDataSource {
     );
   }
 }
+

@@ -20,9 +20,13 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createPost(String title, String content) async {
-    final result = await dataSource.createPost(title, content);
-    return result.fold((failure) => Left(failure), (model) => Right(null));
+  Future<Either<Failure, String>> createPost(
+    int uid,
+    String title,
+    String content,
+  ) async {
+    final result = await dataSource.createPost(uid, title, content);
+    return result.fold((failure) => Left(failure), (msg) => Right(msg));
   }
 
   @override
@@ -30,7 +34,7 @@ class PostRepositoryImpl implements PostRepository {
     final result = await dataSource.getUserPosts(userId);
     return result.fold(
       (failure) => Left(failure),
-      (models) => Right(models.map((m) => m.toEntity()).toList()),
+      (models) => Right(models.map((m) => m).toList()), //! itha bgh .toEntity remove kely 
     );
   }
 }

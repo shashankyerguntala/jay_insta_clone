@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
-import 'package:jay_insta_clone/presentation/features/profile/widgets/moderator_request_dialogue.dart';
+import 'package:jay_insta_clone/core%20/helper_functions.dart';
+import 'package:jay_insta_clone/domain/entity/user_entity.dart';
+
+
 import 'package:jay_insta_clone/presentation/features/profile/widgets/sign_out_dialogue.dart';
 
 import 'role_badge.dart';
 
 class ProfileHeader extends StatelessWidget {
-  final String userRole;
+  final UserEntity user;
   final bool hasRequestedModerator;
   final VoidCallback onModeratorRequest;
   final VoidCallback onSignOut;
 
   const ProfileHeader({
     super.key,
-    required this.userRole,
+    required this.user,
     required this.hasRequestedModerator,
     required this.onModeratorRequest,
     required this.onSignOut,
@@ -39,10 +42,10 @@ class ProfileHeader extends StatelessWidget {
       ),
       child: Column(
         children: [
-          RoleBadge(userRole: 'moderator'),
+          RoleBadge(userRole: user.role),
           const SizedBox(height: 16),
-          const Text(
-            "Shashank Y",
+          Text(
+            user.username,
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -52,14 +55,14 @@ class ProfileHeader extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            "shashank@example.com",
+            user.email,
             style: TextStyle(
               fontSize: 14,
               color: ColorConstants.textSecondaryColor,
             ),
           ),
           const SizedBox(height: 12),
-          RoleBadge(userRole: userRole, isTextBadge: true),
+          RoleBadge(userRole: user.role, isTextBadge: true),
           const SizedBox(height: 20),
           Row(
             children: [
@@ -95,26 +98,26 @@ class ProfileHeader extends StatelessWidget {
                           ],
                         ),
                       )
-                    : ElevatedButton.icon(
+                    : ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorConstants.primaryColor,
-                          foregroundColor: Colors.white,
-                          elevation: 0,
+                          backgroundColor: HelperFunctions.getRoleColor(
+                            user.role,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
                         ),
-                        onPressed: () => ModeratorRequestDialog.show(
-                          context,
-                          onModeratorRequest,
-                        ),
-                        icon: const Icon(Icons.shield_outlined, size: 20),
-                        label: const Text(
-                          "Become a Moderator",
-                          style: TextStyle(
+                        onPressed: onModeratorRequest,
+                        child: Text(
+                          HelperFunctions.getRoleLabel(user.role),
+                          style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 15,
+                            color: Colors.white,
                           ),
                         ),
                       ),

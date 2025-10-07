@@ -1,40 +1,52 @@
 class ApiConstants {
-  static const String baseUrl = "http://localhost:8080";
+  static const String baseUrl = "https://isadora-eupneic-kaden.ngrok-free.dev";
 
   //! Auth
-  static const String register = "/api/users/signup";
+  static const String register = "/api/auth/register";
   static const String login = "/api/auth/login";
 
   //! Users
-  static String getProfile(String id) => "/api/users/$id";
-  static String deleteUser(String id) => "/api/users/$id";
+
   static String userPosts(String id) => "/api/users/$id/posts";
-  static String userApprovedPosts(String id) =>
-      '/api/users/{id}/posts/approved';
-  static String userDeclinededPosts(String id) =>
-      '/api/users/{id}/posts/declined';
-  static String userPendingPosts(String id) => '/api/users/{id}/posts/pending';
-  static String userProfile(String id) => '/profile';
+  static String userApprovedPosts(int id) =>
+      '/api/posts/user/$id/status/Approved';
+  static String userDeclinededPosts(int id) =>
+      '/api/posts/user/$id/status/disapproved';
+  static String userPendingPosts(int id) =>
+      '/api/posts/user/$id/status/pending';
+  static String userProfile(int id) => '/api/users/$id';
+  static String becomeModerator(int id) =>
+      '/api/moderator-requests/request/$id';
 
   //! Posts
   static const String createPost = "/api/posts";
-  static const String getPosts = "/api/posts";
-  static String updatePost(String id) => "/api/posts/$id";
-  static String deletePost(String id) => "/api/posts/$id";
+  static const String getAllPosts = "/api/posts/approved";
+  static String updatePost(int id) => "/api/posts/$id";
+  static String deletePost(int id) => "/api/posts/$id";
 
   //! Comments
-  static String createComment(String postId) => "/api/posts/$postId/comments";
-  static String getComments(String postId) => "/api/posts/$postId/comments";
+  static String sendComment() => "/api/comments";
 
   //! Moderator
-  static String reviewPost(String postId) => "/api/review/posts/$postId";
-  static String reviewComment(String commentId) =>
-      "/api/review/comments/$commentId";
-  static const String applyModerator = "/api/moderator/request";
-  static String approveModerator(String requestId) =>
-      "/api/moderator/$requestId";
+
+  static String getModeratorPendingPosts() => '/api/moderation/posts';
+  static String approvePost(int postId) => '/api/moderation/posts/$postId';
+  static String rejectPost(int postId) => '/api/moderation/posts/$postId';
+  static String approveComment(int postId) =>
+      '/api/moderation/comments/$postId';
+  static String rejectComment(int postId) => '/api/moderation/comments/$postId';
 
   //! Admin
-  static const String requestAdmin = "/api/admins/request";
-  static String approveAdmin(String requestId) => "/api/admins/$requestId";
+  static String approveModerator(int reqId) =>
+      "/api/moderator-requests/$reqId/review"; //used
+  static String rejectModerator(int reqId) =>
+      "/api/moderator-requests/$reqId/review"; //used
+  static String getModeratorRequests = "/api/moderator-requests"; //used
+
+  //! superadmin
+  static String getAdminRequests = "api/admin/admin-requests";
+  static String approveAdmin(int reqId) =>
+      "/api/moderator-requests/$reqId/review"; 
+  static String rejectAdmin(int reqId) =>
+      "/api/moderator-requests/$reqId/review"; 
 }

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jay_insta_clone/core%20/shared_prefs/auth_local_storage.dart';
 
 import 'package:jay_insta_clone/domain/usecase/post_usecase.dart';
 
@@ -18,7 +19,12 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
   ) async {
     emit(CreatePostLoading());
 
-    final result = await postUseCase.createPost(event.title, event.content);
+    final uid = await AuthLocalStorage.getUid();
+    final result = await postUseCase.createPost(
+      uid!,
+      event.title,
+      event.content,
+    );
 
     result.fold(
       (failure) => emit(CreatePostError(error: failure.message)),

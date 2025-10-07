@@ -31,22 +31,41 @@ class ModeratorRepositoryImpl implements ModeratorRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> approveComment(String commentId) {
-    return dataSource.approveComment(commentId);
+  Future<Either<Failure, bool>> approveComment(
+    int commentId,
+    int userId,
+  ) async {
+    final result = await dataSource.approveComment(commentId, userId);
+    return result.fold(
+      (fail) => left(Failure('error while approving comment !')),
+      (data) => right(data),
+    );
   }
 
   @override
-  Future<Either<Failure, bool>> approvePost(String postId) {
-    return dataSource.approvePost(postId);
+  Future<Either<Failure, bool>> approvePost(int postId, int userId) async {
+    final result = await dataSource.approvePost(postId, userId);
+    return result.fold(
+      (fail) => left(Failure('error while approving post !')),
+      (data) => right(data),
+    );
   }
 
   @override
-  Future<Either<Failure, bool>> rejectComment(String commentId) {
-    return dataSource.rejectComment(commentId);
+  Future<Either<Failure, bool>> rejectComment(int commentId, int userId) async {
+    final result = await dataSource.rejectComment(commentId, userId);
+    return result.fold(
+      (fail) => left(Failure('error while rejecting comment !')),
+      (data) => right(data),
+    );
   }
 
   @override
-  Future<Either<Failure, bool>> rejectPost(String postId) {
-    return dataSource.rejectPost(postId);
+  Future<Either<Failure, bool>> rejectPost(int postId, int userId) async {
+    final result = await dataSource.rejectPost(postId, userId);
+    return result.fold(
+      (fail) => left(Failure('error while rejecting post !')),
+      (data) => right(data),
+    );
   }
 }

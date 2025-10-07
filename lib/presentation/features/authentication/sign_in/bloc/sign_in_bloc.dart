@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:jay_insta_clone/core%20/shared_prefs/auth_local_storage.dart';
 import 'package:jay_insta_clone/domain/entity/user_entity.dart';
 import 'package:jay_insta_clone/domain/usecase/auth_usecase.dart';
 
@@ -23,10 +24,12 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         password: event.password,
       );
 
-      result.fold(
-        (failure) => emit(SignInFailure(failure.message)),
-        (user) => emit(SignInSuccess(user)),
-      );
+      result.fold((failure) => emit(SignInFailure(failure.message)), (
+        user,
+      ) async {
+        AuthLocalStorage.saveUid(user.id);
+        emit(SignInSuccess(user));
+      });
     });
   }
 }

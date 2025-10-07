@@ -7,7 +7,8 @@ class AuthUsecase {
   final AuthRepository repository;
 
   const AuthUsecase({required this.repository});
-  Future<Either<Failure, User>> login({
+  
+  Future<Either<Failure, UserEntity>> login({
     required String email,
     required String password,
   }) {

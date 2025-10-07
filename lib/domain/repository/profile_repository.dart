@@ -4,8 +4,9 @@ import 'package:jay_insta_clone/domain/entity/post_entity.dart';
 import 'package:jay_insta_clone/domain/entity/user_entity.dart';
 
 abstract class ProfileRepository {
-  Future<Either<Failure, List<PostEntity>>> getApprovedPosts(String userId);
-  Future<Either<Failure, List<PostEntity>>> getPendingPosts(String userId);
-  Future<Either<Failure, List<PostEntity>>> getDeclinedPosts(String userId);
-  Future<Either<Failure, User>> getUserProfile(String userId);
+  Future<Either<Failure, String>> sendModeratorRequest(int userId);
+  Future<Either<Failure, List<PostEntity>>> getApprovedPosts(int userId);
+  Future<Either<Failure, List<PostEntity>>> getPendingPosts(int userId);
+  Future<Either<Failure, List<PostEntity>>> getDeclinedPosts(int userId);
+  Future<Either<Failure, UserEntity>> getUserProfile(int userId);
 }

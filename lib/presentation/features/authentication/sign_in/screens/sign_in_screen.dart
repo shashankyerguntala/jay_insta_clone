@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 import 'package:jay_insta_clone/core%20/di/di.dart';
-import 'package:jay_insta_clone/domain/entity/user_entity.dart';
 
 import 'package:jay_insta_clone/presentation/features/authentication/sign_in/widgets/sign_in_appbar.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_in/widgets/sign_in_form.dart';
@@ -31,15 +30,16 @@ class SignInScreen extends StatelessWidget {
               ),
             );
           } else if (state is SignInSuccess) {
-            context.go(
-              '/home',
-              extra: User(
-                username: 'shash',
-                email: 'shash@gmail.com',
-                role: 'admin',
-                // isModerator: false,
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  "Welcome back ${state.user.username}",
+                  style: TextStyle(color: Colors.black),
+                ),
+                backgroundColor: const Color.fromARGB(186, 25, 255, 48),
               ),
             );
+            context.go('/home', extra: state.user);
           }
         },
         child: Scaffold(
@@ -52,6 +52,18 @@ class SignInScreen extends StatelessWidget {
                 children: [
                   const SignInAppBar(),
                   const SizedBox(height: 12),
+                  BlocListener<SignInBloc, SignInState>(
+                    listener: (context, state) {
+                      if (state is SignInSuccess) {
+                        if (state.user.role == "ADMIN") {
+                          context.go('/admin');
+                        } else if (state.user.role == "SUPER_ADMIN") {
+                          context.go('/superadmin');
+                        }
+                      }
+                    },
+                    child: Container(),
+                  ),
                   BlocBuilder<SignInBloc, SignInState>(
                     builder: (context, state) {
                       final obscurePassword =
