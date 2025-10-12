@@ -62,7 +62,7 @@ class AppRoutes {
       ),
       GoRoute(
         path: StringConstants.signUp,
-        builder: (context, _) => const SignUpScreen(),
+        builder: (context, _) => SignUpScreen(),
       ),
       GoRoute(
         path: StringConstants.admin,

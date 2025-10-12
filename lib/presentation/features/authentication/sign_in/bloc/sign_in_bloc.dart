@@ -35,7 +35,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           final uid = user.id;
           final role = await AuthLocalStorage.getRole();/////////////////////CHECK
 
-          emit(SignInSuccess(uid!, role!, user.username));
+          emit(SignInSuccess(uid, role!, user.username));
         },
       );
     });

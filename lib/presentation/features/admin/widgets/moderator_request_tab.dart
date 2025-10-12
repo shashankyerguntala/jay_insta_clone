@@ -5,9 +5,8 @@ import 'package:jay_insta_clone/core%20/constants/theme_constants.dart';
 import 'package:jay_insta_clone/core%20/helper_functions.dart';
 import 'package:jay_insta_clone/presentation/features/admin/bloc/admin_event.dart';
 import 'package:jay_insta_clone/presentation/features/admin/widgets/admin_dialogue.dart';
+import 'package:jay_insta_clone/presentation/features/admin/widgets/empty_state.dart';
 import '../bloc/admin_bloc.dart';
-
-import 'empty_screen.dart';
 
 class ModeratorRequestTab extends StatelessWidget {
   final List moderatorRequests;
