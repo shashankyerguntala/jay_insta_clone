@@ -11,10 +11,12 @@ class ColorConstants {
   static const Color errorColor = Color(0xFFFF3B30);
   static const Color successColor = Color(0xFF34C759);
 
-  static const Color textPrimaryColor = Color.fromARGB(255, 7, 30, 70);
+  static const Color textPrimaryColor = Color.fromARGB(255, 7, 30, 70);///////////////////
   static const Color textSecondaryColor = Color(0xFF6B7280);
   static const Color hintColor = Color(0xFF9CA3AF);
 
   static const Color borderColor = Color(0xFFD1E7FF);
   static const Color disabledColor = Color(0xFFE5E7EB);
+
+  static const Color transparent = Colors.transparent;
 }

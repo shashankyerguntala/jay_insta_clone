@@ -12,7 +12,7 @@ class ModeratorDataSource {
 
   Future<Either<Failure, List<PostModel>>> getPendingPosts() async {
     final response = await dioClient.getRequest(
-      "/api/moderation/posts/status/pending",
+      ApiConstants.getModeratorPendingPosts,
     );
 
     return response.fold((failure) => Left(failure), (data) {
@@ -29,7 +29,7 @@ class ModeratorDataSource {
 
   Future<Either<Failure, List<CommentModel>>> getPendingComments() async {
     final response = await dioClient.getRequest(
-      "/api/moderation/comments/status/pending",
+      ApiConstants.getModeratorPendingComments,
     );
 
     return response.fold((failure) => Left(failure), (data) {

@@ -38,4 +38,33 @@ class PostDataSource {
       return Right(posts);
     });
   }
+
+  Future<Either<Failure, bool>> flagPost(int postId, int userId) async {
+    final response = await dioClient.putRequest(
+      ApiConstants.flagPost(postId),
+      data: {"reviewerId": userId, "action": "disapproved"},
+    );
+
+    return response.fold((failure) => Left(failure), (_) => const Right(true));
+  }
+
+  Future<Either<Failure, bool>> editPost(
+    int postId,
+    int uid,
+    String title,
+    String content,
+  ) async {
+    final response = await dioClient.putRequest(
+      ApiConstants.updatePost(postId),
+      data: {"userId": uid, "title": title, "content": content},
+    );
+    return response.fold((failure) => Left(failure), (data) => Right(true));
+  }
+
+  Future<Either<Failure, String>> deletePost(int postId) async {
+    final response = await dioClient.deleteRequest(
+      ApiConstants.deletePost(postId),
+    );
+    return response.fold((failure) => Left(failure), (data) => Right(data));
+  }
 }

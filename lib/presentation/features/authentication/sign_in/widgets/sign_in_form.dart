@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
+import 'package:jay_insta_clone/presentation/features/authentication/sign_in/widgets/custom_text_field_signin.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/screens/sign_up_screen.dart';
-import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/custom_text_field.dart';
 
-class SignInForm extends StatelessWidget {
+class SignInForm extends StatelessWidget { ///////// TRY TO MAKE 1
   final GlobalKey<FormState> formKey;
 
   final TextEditingController emailController;
@@ -37,7 +37,7 @@ class SignInForm extends StatelessWidget {
         key: formKey,
         child: Column(
           children: [
-            CustomTextField(
+            CustomTextFieldSignin(
               controller: emailController,
               label: StringConstants.emailLabel,
               validatorMsg: StringConstants.emailEmpty,
@@ -46,7 +46,7 @@ class SignInForm extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            CustomTextField(
+            CustomTextFieldSignin(
               controller: passwordController,
               label: StringConstants.passwordLabel,
               validatorMsg: StringConstants.passwordEmpty,
@@ -87,7 +87,7 @@ class SignInForm extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            SizedBox(
+            SizedBox(/////////////
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: isLoading ? null : onSubmit,
@@ -103,7 +103,7 @@ class SignInForm extends StatelessWidget {
                         height: 20,
                         width: 20,
                         child: CircularProgressIndicator(
-                          color: Colors.white,
+                          color: ColorConstants.fillColor,
                           strokeWidth: 2,
                         ),
                       )
@@ -112,7 +112,7 @@ class SignInForm extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
-                          color: Colors.white,
+                          color: ColorConstants.fillColor,
                         ),
                       ),
               ),

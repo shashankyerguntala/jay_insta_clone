@@ -10,5 +10,18 @@ abstract class PostRepository {
     String title,
     String content,
   );
-  Future<Either<Failure, List<PostEntity>>> getUserPosts(String userId);
+  Future<Either<Failure, List<PostEntity>>> getUserPosts(
+    String userId,
+  ); //! ithe bgh string / int
+
+  Future<Either<Failure, bool>> flagPost(int postId, int userId);
+
+  Future<Either<Failure, bool>> editPost(
+    int postId,
+    int uid,
+    String title,
+    String content,
+  );
+
+  Future<Either<Failure, bool>> deletePost(int postId);
 }

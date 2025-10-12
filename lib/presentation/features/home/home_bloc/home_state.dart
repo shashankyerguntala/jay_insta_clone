@@ -30,3 +30,14 @@ class HomeError extends HomeState {
   List<Object?> get props => [message];
 }
 
+class FlagSuccessState extends HomeState {
+  final String msg;
+
+  const FlagSuccessState({required this.msg});
+}
+
+class FlagErrorState extends HomeState {
+  final String msg;
+
+  const FlagErrorState({required this.msg});
+}

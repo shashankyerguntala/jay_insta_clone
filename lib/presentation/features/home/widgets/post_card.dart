@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
+import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
+import 'package:jay_insta_clone/presentation/features/home/widgets/flag_dialogue.dart';
 
 class PostCard extends StatelessWidget {
+  final String role;
   final String email;
   final String caption;
   final String description;
   final int commentsCount;
   final DateTime createdAt;
   final VoidCallback onTap;
+  final VoidCallback onFlag;
 
   const PostCard({
     super.key,
@@ -18,6 +22,8 @@ class PostCard extends StatelessWidget {
     required this.commentsCount,
     required this.createdAt,
     required this.onTap,
+    required this.role,
+    required this.onFlag,
   });
 
   @override
@@ -57,11 +63,11 @@ class PostCard extends StatelessWidget {
                     ),
                     child: CircleAvatar(
                       radius: 20,
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: ColorConstants.transparent,
                       child: Text(
                         email[0].toUpperCase(),
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: ColorConstants.fillColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
@@ -93,16 +99,21 @@ class PostCard extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: ColorConstants.fillColor,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(
-                      Icons.more_horiz,
-                      size: 20,
-                      color: ColorConstants.textSecondaryColor,
-                    ),
+                    child: role == StringConstants.moderator
+                        ? IconButton(
+                            onPressed: () => FlagDialogue.show(context, onFlag),
+                            icon: Icon(
+                              Icons.flag_circle,
+
+                              size: 24,
+                              color: ColorConstants.errorColor,
+                            ),
+                          )
+                        : null,
                   ),
                 ],
               ),
@@ -159,7 +170,7 @@ class PostCard extends StatelessWidget {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: ColorConstants.fillColor,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(

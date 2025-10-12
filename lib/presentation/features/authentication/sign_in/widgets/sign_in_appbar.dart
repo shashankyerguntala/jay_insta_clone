@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
 
-class SignInAppBar extends StatelessWidget {
+class SignInAppBar extends StatelessWidget {////////////MAKE IT SINGLE WIDGET
   const SignInAppBar({super.key});
 
   @override

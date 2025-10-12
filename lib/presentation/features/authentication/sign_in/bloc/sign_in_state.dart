@@ -19,12 +19,14 @@ class SignInInitial extends SignInState {
 class SignInLoading extends SignInState {}
 
 class SignInSuccess extends SignInState {
-  final UserEntity user;
+  final int uid;
+  final String role;
+  final String username;
 
-  const SignInSuccess(this.user);
+  const SignInSuccess(this.uid, this.role, this.username);
 
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [uid, role, username];
 }
 
 class SignInFailure extends SignInState {

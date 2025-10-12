@@ -23,4 +23,21 @@ class PostUseCase {
   Future<Either<Failure, List<PostEntity>>> getUserPosts(String userId) async {
     return await repository.getUserPosts(userId);
   }
+
+  Future<Either<Failure, bool>> flagPost(int postId, int userId) async {
+    return repository.flagPost(postId, userId);
+  }
+
+  Future<Either<Failure, bool>> editPost(
+    int postId,
+    int uid,
+    String title,
+    String content,
+  ) async {
+    return await repository.editPost(postId, uid, title, content);
+  }
+
+  Future<Either<Failure, bool>> deletePost(int postId) async {
+    return await repository.deletePost(postId);
+  }
 }

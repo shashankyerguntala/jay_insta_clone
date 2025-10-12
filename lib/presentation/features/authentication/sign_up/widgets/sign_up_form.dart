@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
-import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/custom_text_field.dart';
+import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/custom_text_field_sign_up.dart';
 
 class SignUpForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
@@ -36,14 +36,14 @@ class SignUpForm extends StatelessWidget {
         key: formKey,
         child: Column(
           children: [
-            CustomTextField(
+            CustomTextFieldSignUp(
               controller: nameController,
               label: StringConstants.usernameLabel,
               validatorMsg: StringConstants.usernameEmpty,
             ),
             const SizedBox(height: 16),
 
-            CustomTextField(
+            CustomTextFieldSignUp(
               controller: emailController,
               label: StringConstants.emailLabel,
               validatorMsg: StringConstants.emailEmpty,
@@ -52,7 +52,7 @@ class SignUpForm extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            CustomTextField(
+            CustomTextFieldSignUp(
               controller: passwordController,
               label: StringConstants.passwordLabel,
               validatorMsg: StringConstants.passwordEmpty,
@@ -110,7 +110,7 @@ class SignUpForm extends StatelessWidget {
                         height: 20,
                         width: 20,
                         child: CircularProgressIndicator(
-                          color: Colors.white,
+                          color: ColorConstants.fillColor,
                           strokeWidth: 2,
                         ),
                       )
@@ -118,7 +118,7 @@ class SignUpForm extends StatelessWidget {
                         StringConstants.signUpButton,
                         style: const TextStyle(
                           fontSize: 16,
-                          color: Colors.white,
+                          color: ColorConstants.fillColor,
                         ),
                       ),
               ),

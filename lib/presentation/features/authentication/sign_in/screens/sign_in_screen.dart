@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
+import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
 import 'package:jay_insta_clone/core%20/di/di.dart';
 
 import 'package:jay_insta_clone/presentation/features/authentication/sign_in/widgets/sign_in_appbar.dart';
@@ -33,13 +34,16 @@ class SignInScreen extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  "Welcome back ${state.user.username}",
+                  StringConstants.welcomeUser(state.username),
                   style: TextStyle(color: Colors.black),
                 ),
                 backgroundColor: const Color.fromARGB(186, 25, 255, 48),
               ),
             );
-            context.go('/home', extra: state.user);
+            context.go(
+              StringConstants.home,
+              extra: {"uid": state.uid, "role": state.role},
+            );
           }
         },
         child: Scaffold(
@@ -52,13 +56,13 @@ class SignInScreen extends StatelessWidget {
                 children: [
                   const SignInAppBar(),
                   const SizedBox(height: 12),
-                  BlocListener<SignInBloc, SignInState>(
+                  BlocListener<SignInBloc, SignInState>( ////////
                     listener: (context, state) {
                       if (state is SignInSuccess) {
-                        if (state.user.role == "ADMIN") {
-                          context.go('/admin');
-                        } else if (state.user.role == "SUPER_ADMIN") {
-                          context.go('/superadmin');
+                        if (state.role == "ADMIN") { /////////enums
+                          context.go(StringConstants.admin);
+                        } else if (state.role == "SUPER_ADMIN") {
+                          context.go(StringConstants.superAdmin);
                         }
                       }
                     },
@@ -82,7 +86,7 @@ class SignInScreen extends StatelessWidget {
                           context.read<SignInBloc>().add(ShowPasswordEvent());
                         },
                         onSubmit: () {
-                          if (formKey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) { /////DISABLE KEYBOARD
                             context.read<SignInBloc>().add(
                               SignInRequested(
                                 email: emailController.text.trim(),

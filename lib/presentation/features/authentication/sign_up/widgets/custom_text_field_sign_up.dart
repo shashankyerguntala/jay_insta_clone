@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextFieldSignUp extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final String validatorMsg;
@@ -12,7 +12,7 @@ class CustomTextField extends StatelessWidget {
 
   final Widget? suffixIcon;
 
-  const CustomTextField({
+  const CustomTextFieldSignUp({
     super.key,
     required this.controller,
     required this.label,
@@ -30,6 +30,7 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       obscureText: obscureText,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(color: ColorConstants.textSecondaryColor),
@@ -55,11 +56,23 @@ class CustomTextField extends StatelessWidget {
         if (value == null || value.isEmpty) {
           return validatorMsg;
         }
+
         if (emailValidator && !RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
           return StringConstants.emailInvalid;
         }
-        if (value.length < 6) {
-          return StringConstants.passwordShort;
+        if (label == StringConstants.passwordLabel) {
+          final passwordRegex = RegExp(
+            r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]+$',
+          );
+          if (value.length < 6) {
+            return StringConstants.passwordShort;/////////////////////
+          }
+          if (!passwordRegex.hasMatch(value)) {
+            return StringConstants.passwordNotStrong;
+          }
+        }
+        if (label == StringConstants.usernameLabel && value.length < 4) {
+          return StringConstants.usernameShort;
         }
         return null;
       },

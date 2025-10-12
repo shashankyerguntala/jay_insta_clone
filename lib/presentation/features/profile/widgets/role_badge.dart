@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 
 class RoleBadge extends StatelessWidget {
   final String userRole;
@@ -18,8 +19,8 @@ class RoleBadge extends StatelessWidget {
 
     switch (userRole) {
       case "MODERATOR":
-        roleColor = Colors.blue;
-        roleIcon = Icons.shield;
+        roleColor = const Color.fromARGB(255, 243, 93, 0);
+        roleIcon = Icons.workspace_premium;
         roleText = "MODERATOR";
         break;
       case "ADMIN":
@@ -33,7 +34,7 @@ class RoleBadge extends StatelessWidget {
         roleText = "SUPER ADMIN";
         break;
       default:
-        roleColor = const Color.fromARGB(255, 97, 97, 97);
+        roleColor = ColorConstants.primaryColor;
         roleIcon = Icons.person;
         roleText = "USER";
     }

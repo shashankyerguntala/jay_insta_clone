@@ -3,7 +3,6 @@ import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 import 'package:jay_insta_clone/core%20/helper_functions.dart';
 import 'package:jay_insta_clone/domain/entity/user_entity.dart';
 
-
 import 'package:jay_insta_clone/presentation/features/profile/widgets/sign_out_dialogue.dart';
 
 import 'role_badge.dart';
@@ -67,7 +66,8 @@ class ProfileHeader extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: hasRequestedModerator
+                child:
+                    user.hasRequestedModerator! 
                     ? Container(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         decoration: BoxDecoration(

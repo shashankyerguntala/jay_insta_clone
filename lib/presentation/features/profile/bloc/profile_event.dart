@@ -40,3 +40,9 @@ class FetchPendingPostsEvent extends ProfileEvent {
 class SignOutEvent extends ProfileEvent {}
 
 class BecomeModeratorEvent extends ProfileEvent {}
+
+class DeletePostEvent extends ProfileEvent {
+  final int postId;
+
+  const DeletePostEvent({required this.postId});
+}

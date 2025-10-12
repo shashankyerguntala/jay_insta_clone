@@ -8,3 +8,9 @@ abstract class HomeEvent extends Equatable {
 }
 
 class FetchPostsEvent extends HomeEvent {}
+
+class FlagPostEvent extends HomeEvent {
+  final int postId;
+
+  const FlagPostEvent({required this.postId});
+}

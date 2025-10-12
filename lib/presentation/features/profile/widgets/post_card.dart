@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 import 'package:jay_insta_clone/domain/entity/post_entity.dart';
+import 'package:jay_insta_clone/presentation/features/profile/widgets/delete_dialogue.dart';
 import 'comment_card.dart';
 
 class PostCard extends StatelessWidget {
   final PostEntity post;
-
-  const PostCard({super.key, required this.post});
+  final VoidCallback editCallback;
+  final VoidCallback deleteCallback;
+  const PostCard({
+    super.key,
+    required this.post,
+    required this.editCallback,
+    required this.deleteCallback,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _showPostDetails(context),
+      onTap: () => showPostDetails(context),
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
@@ -33,15 +41,38 @@ class PostCard extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: Text(
-                      post.title,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: ColorConstants.textPrimaryColor,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    child: Row(
+                      children: [
+                        Text(
+                          post.title,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: ColorConstants.textPrimaryColor,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Spacer(),
+                        IconButton(
+                          onPressed: () => context.go(
+                            '/create',
+                            extra: {"isEdit": true, "post": post},
+                          ),
+                          icon: Icon(Icons.edit),
+                          color: ColorConstants.primaryColor,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: IconButton(
+                            onPressed: () {
+                              DeleteDialogue.show(context, deleteCallback);
+                            },
+                            icon: Icon(Icons.delete),
+                            color: ColorConstants.errorColor,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -97,7 +128,7 @@ class PostCard extends StatelessWidget {
     );
   }
 
-  void _showPostDetails(BuildContext context) {
+  void showPostDetails(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,

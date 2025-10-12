@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
+import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
 import 'package:jay_insta_clone/core%20/di/di.dart';
 import 'package:jay_insta_clone/core%20/helper_functions.dart';
 import 'package:jay_insta_clone/core%20/shared_prefs/auth_local_storage.dart';
@@ -38,6 +39,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       value: profileBloc,
       child: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
+          if (state is DeleteSuccessState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text(StringConstants.postDeleted)),
+            );
+          }
           if (state is ProfileSignedOut) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Signed Out Successful')),
@@ -57,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Scaffold(
           backgroundColor: ColorConstants.backgroundColor,
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: ColorConstants.fillColor,
             elevation: 0,
             title: const Text(
               "Profile",

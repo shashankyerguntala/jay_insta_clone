@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
 import 'package:jay_insta_clone/core%20/constants/theme_constants.dart';
 import 'package:jay_insta_clone/core%20/di/di.dart';
+import 'package:jay_insta_clone/core%20/helper_functions.dart';
 import 'package:jay_insta_clone/presentation/features/moderator/bloc/moderator_bloc.dart';
 import 'package:jay_insta_clone/presentation/features/moderator/bloc/moderator_event.dart';
 import 'package:jay_insta_clone/presentation/features/moderator/bloc/moderator_state.dart';
@@ -45,6 +47,14 @@ class ModeratorScreen extends StatelessWidget {
             );
           } else if (state is ModeratorError) {
             return Scaffold(
+              appBar: AppBar(
+                leading: GestureDetector(
+                  onTap: () {
+                    context.go('/moderator');
+                  },
+                  child: Icon(Icons.arrow_back),
+                ),
+              ),
               body: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +65,10 @@ class ModeratorScreen extends StatelessWidget {
                       color: ColorConstants.textSecondaryColor,
                     ),
                     const SizedBox(height: 16),
-                    Text(state.message, style: ThemeConstants.bodyMedium),
+                    Text(
+                      "You can't review your own post/comment !",
+                      style: ThemeConstants.bodyMedium,
+                    ),
                   ],
                 ),
               ),
@@ -68,6 +81,12 @@ class ModeratorScreen extends StatelessWidget {
               length: 2,
               child: Scaffold(
                 appBar: AppBar(
+                  leading: GestureDetector(
+                    onTap: () {
+                      context.go('/profile');
+                    },
+                    child: Icon(Icons.arrow_back),
+                  ),
                   centerTitle: true,
                   titleSpacing: 0,
                   elevation: 0,
@@ -85,7 +104,7 @@ class ModeratorScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: TabBar(
-                          labelColor: ColorConstants.primaryColor,
+                          labelColor: Colors.white,
                           unselectedLabelColor:
                               ColorConstants.textSecondaryColor,
                           indicator: BoxDecoration(
@@ -182,13 +201,17 @@ class ModeratorScreen extends StatelessWidget {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: _getStatusColor(post.status).withAlpha(20),
+                              color: HelperFunctions.getRoleColor(
+                                post.status,
+                              ).withAlpha(20),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
                               post.status.toUpperCase(),
                               style: ThemeConstants.bodySmall.copyWith(
-                                color: _getStatusColor(post.status),
+                                color: HelperFunctions.getRoleColor(
+                                  post.status,
+                                ),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 11,
                               ),
@@ -305,7 +328,7 @@ class ModeratorScreen extends StatelessWidget {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: _getStatusColor(
+                              color: HelperFunctions.getRoleColor(
                                 comment.status,
                               ).withAlpha(20),
                               borderRadius: BorderRadius.circular(6),
@@ -313,7 +336,9 @@ class ModeratorScreen extends StatelessWidget {
                             child: Text(
                               comment.status.toUpperCase(),
                               style: ThemeConstants.bodySmall.copyWith(
-                                color: _getStatusColor(comment.status),
+                                color: HelperFunctions.getRoleColor(
+                                  comment.status,
+                                ),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 11,
                               ),
@@ -396,18 +421,5 @@ class ModeratorScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Color _getStatusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'pending':
-        return Colors.orange;
-      case 'approved':
-        return Colors.green;
-      case 'rejected':
-        return Colors.red;
-      default:
-        return ColorConstants.textSecondaryColor;
-    }
   }
 }

@@ -23,7 +23,7 @@ class SignOutDialog {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: ColorConstants.errorColor,
+              backgroundColor: ColorConstants.primaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -32,7 +32,13 @@ class SignOutDialog {
               context.pop();
               onSignOut();
             },
-            child: const Text("Sign Out"),
+            child: const Text(
+              "Sign Out",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),

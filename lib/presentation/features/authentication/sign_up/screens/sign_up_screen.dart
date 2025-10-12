@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
+import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_in/screens/sign_in_screen.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/sign_up_appbar.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/widgets/sign_up_form.dart';
@@ -8,18 +9,17 @@ import 'package:jay_insta_clone/core%20/di/di.dart';
 import '../bloc/sign_up_bloc.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+  SignUpScreen({super.key});
 
+  final formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    final nameController = TextEditingController();
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-
     return BlocProvider<SignUpBloc>(
       create: (_) => di<SignUpBloc>(),
-      child: BlocListener<SignUpBloc, SignUpState>(
+      child: BlocListener<SignUpBloc, SignUpState>(///////BLOCCONSUMER
         listener: (context, state) {
           if (state is SignUpFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -31,7 +31,7 @@ class SignUpScreen extends StatelessWidget {
           } else if (state is SignUpSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('Sign Up Successful!'),
+                content: Text(StringConstants.signUpSuccess),
                 backgroundColor: ColorConstants.successColor,
               ),
             );
@@ -42,6 +42,7 @@ class SignUpScreen extends StatelessWidget {
           }
         },
         child: BlocBuilder<SignUpBloc, SignUpState>(
+          //////// PUT ON BUTTON
           builder: (context, state) {
             final isLoading = state is SignUpLoading;
             final obscurePassword = state is SignUpPasswordVisibilityChanged
@@ -93,3 +94,11 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 }
+// class _SignUpScreenBody extends StatelessWidget {
+//   const _SignUpScreenBody({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Placeholder();
+//   }
+// }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jay_insta_clone/domain/entity/post_entity.dart';
+import 'package:jay_insta_clone/presentation/features/profile/bloc/profile_bloc.dart';
+import 'package:jay_insta_clone/presentation/features/profile/bloc/profile_event.dart';
 import 'post_card.dart';
 
 class PostsGrid extends StatelessWidget {
@@ -43,7 +46,13 @@ class PostsGrid extends StatelessWidget {
       itemCount: posts.length,
       itemBuilder: (context, index) {
         final post = posts[index];
-        return PostCard(post: post);
+        return PostCard(
+          post: post,
+          editCallback: () {},
+          deleteCallback: () {
+            context.read<ProfileBloc>().add(DeletePostEvent(postId: post.id));
+          },
+        );
       },
     );
   }

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:jay_insta_clone/core%20/shared_prefs/auth_local_storage.dart';
+import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
+import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
 
 class HelperFunctions {
-  static Future<int?> getUid() async {
-    return await AuthLocalStorage.getUid();
-  }
-
   static String getRoleLabel(String role) {
-    switch (role.toUpperCase()) {
+    switch (role) {
       case "MODERATOR":
         return "Access Moderator Privileges";
       case "ADMIN":
@@ -20,16 +17,23 @@ class HelperFunctions {
   }
 
   static Color getRoleColor(String role) {
-    switch (role.toUpperCase()) {
+    switch (role) {
       case "MODERATOR":
-        return Colors.blue;
+        return const Color.fromARGB(255, 243, 93, 0);
       case "ADMIN":
         return Colors.purple;
 
       case "SUPER_ADMIN":
         return Colors.amber.shade700;
       default:
-        return Colors.grey.shade800;
+        return ColorConstants.primaryColor;
     }
+  }
+
+  static int getCurrentIndex(String location) {
+    if (location.startsWith(StringConstants.home)) return 0;
+    if (location.startsWith(StringConstants.create)) return 1;
+    if (location.startsWith(StringConstants.profile)) return 2;
+    return 0;
   }
 }

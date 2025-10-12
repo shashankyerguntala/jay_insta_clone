@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:jay_insta_clone/core%20/shared_prefs/auth_local_storage.dart';
+import 'package:jay_insta_clone/domain/usecase/post_usecase.dart';
 
 import 'package:jay_insta_clone/domain/usecase/profile_usecase.dart';
 
@@ -10,14 +11,18 @@ import 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileUsecase profileUsecase;
+  final PostUseCase postUseCase;
 
-  ProfileBloc({required this.profileUsecase}) : super(ProfileInitial()) {
+  ProfileBloc(this.postUseCase, {required this.profileUsecase})
+    : super(ProfileInitial()) {
     on<FetchUserDetailsEvent>(_onFetchUserDetails);
     on<FetchApprovedPostsEvent>(_onFetchApprovedPosts);
     on<FetchPendingPostsEvent>(_onFetchPendingPosts);
     on<FetchDeclinedPostsEvent>(_onFetchDeclinedPosts);
     on<SignOutEvent>(_onSignOut);
     on<BecomeModeratorEvent>(_onBecomeModerator);
+
+    on<DeletePostEvent>(deletePostEvent);
   }
 
   Future<void> _onFetchUserDetails(
@@ -119,7 +124,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) async {
     final currentState = state;
     if (currentState is ProfileLoaded) {
-      // immediately reflect request in UI
       emit(currentState.copyWith(isModeratorRequest: true));
 
       final uid = await AuthLocalStorage.getUid();
@@ -138,4 +142,59 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       });
     }
   }
+
+  FutureOr<void> deletePostEvent(
+  DeletePostEvent event,
+  Emitter<ProfileState> emit,
+) async {
+  emit(ProfileLoading());
+
+  final uid = await AuthLocalStorage.getUid();
+
+  final deleteResult = await postUseCase.deletePost(event.postId);
+  await deleteResult.fold(
+    (failure) async {
+      emit(DeleteErrorState());
+    },
+    (_) async {
+      // ✅ Once deletion succeeds, reload the whole profile
+      final userResult = await profileUsecase.getUserProfile(uid!);
+      final approvedResult = await profileUsecase.getApprovedPosts(uid);
+      final pendingResult = await profileUsecase.getPendingPosts(uid);
+      final declinedResult = await profileUsecase.getDeclinedPosts(uid);
+
+      userResult.fold(
+        (failure) => emit(ProfileError(failure.message)),
+        (user) {
+          approvedResult.fold(
+            (failure) => emit(ProfileError(failure.message)),
+            (approvedPosts) {
+              pendingResult.fold(
+                (failure) => emit(ProfileError(failure.message)),
+                (pendingPosts) {
+                  declinedResult.fold(
+                    (failure) => emit(ProfileError(failure.message)),
+                    (declinedPosts) {
+                      emit(
+                        ProfileLoaded(
+                          msg: "Post deleted successfully",
+                          user: user,
+                          approvedPosts: approvedPosts,
+                          pendingPosts: pendingPosts,
+                          declinedPosts: declinedPosts,
+                          isModeratorRequest: false,
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          );
+        },
+      );
+    },
+  );
+}
+
 }

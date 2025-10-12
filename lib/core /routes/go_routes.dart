@@ -1,99 +1,26 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
+import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
+
+import 'package:jay_insta_clone/domain/entity/post_entity.dart';
 import 'package:jay_insta_clone/domain/entity/user_entity.dart';
 import 'package:jay_insta_clone/presentation/features/admin/screens/admin_screen.dart';
+
 import 'package:jay_insta_clone/presentation/features/authentication/sign_in/screens/sign_in_screen.dart';
 import 'package:jay_insta_clone/presentation/features/authentication/sign_up/screens/sign_up_screen.dart';
 import 'package:jay_insta_clone/presentation/features/create_post/screens/create_post.dart';
+
 import 'package:jay_insta_clone/presentation/features/home/screens/home_screen.dart';
 import 'package:jay_insta_clone/presentation/features/moderator/screen/moderator_screen.dart';
-
 import 'package:jay_insta_clone/presentation/features/profile/screens/profile_screen.dart';
 import 'package:jay_insta_clone/presentation/features/super_admin/screens/super_admin_screen.dart';
+import 'package:jay_insta_clone/presentation/widgets/main_shell.dart';
 
-class GoRoutes {
-  final GoRouter goRoutes = GoRouter(
-    initialLocation: '/signin',
+class AppRoutes {
+  static final router = GoRouter(
+    initialLocation: StringConstants.signIn,
     routes: [
       ShellRoute(
-        builder: (context, state, child) {
-          final location = state.uri.toString();
-          int currentIndex = 0;
-          if (location.startsWith('/home')) {
-            currentIndex = 0;
-          } else if (location.startsWith('/create')) {
-            currentIndex = 1;
-          } else if (location.startsWith('/profile')) {
-            currentIndex = 2;
-          }
-          return Scaffold(
-            body: child,
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: currentIndex,
-              onTap: (index) {
-                switch (index) {
-                  case 0:
-                    context.go('/home');
-                    break;
-                  case 1:
-                    context.go('/create');
-                    break;
-                  case 2:
-                    context.go('/profile');
-                    break;
-                }
-              },
-              backgroundColor: ColorConstants.backgroundColor,
-              selectedItemColor: ColorConstants.primaryColor,
-              unselectedItemColor: ColorConstants.hintColor,
-              showUnselectedLabels: true,
-              selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-              unselectedLabelStyle: const TextStyle(
-                fontWeight: FontWeight.normal,
-              ),
-              type: BottomNavigationBarType.fixed,
-              items: [
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.home_outlined),
-                  activeIcon: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: ColorConstants.primaryColor,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Icon(Icons.home, color: Colors.white),
-                  ),
-                  label: "Home",
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.add_box_outlined),
-                  activeIcon: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: ColorConstants.primaryColor,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Icon(Icons.add_box, color: Colors.white),
-                  ),
-                  label: "Create",
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.person_outline),
-                  activeIcon: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: ColorConstants.primaryColor,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Icon(Icons.person, color: Colors.white),
-                  ),
-                  label: "Profile",
-                ),
-              ],
-            ),
-          );
-        },
+        builder: (context, state, child) => MainShell(child: child),
         routes: [
           GoRoute(
             path: '/home',
@@ -115,27 +42,39 @@ class GoRoutes {
             },
           ),
           GoRoute(
-            path: '/create',
+            path: StringConstants.create,
             builder: (context, state) {
-              return CreatePost();
+              final extra = state.extra as Map<String, dynamic>? ?? {};
+              final isEdit = extra['isEdit'] as bool? ?? false;
+              final post = extra['post'] as PostEntity?;
+              return CreatePost(isEdit: isEdit, post: post);
             },
           ),
           GoRoute(
-            path: '/profile',
+            path: StringConstants.profile,
             builder: (context, state) => const ProfileScreen(),
           ),
         ],
       ),
-      GoRoute(path: '/signin', builder: (context, state) => SignInScreen()),
-      GoRoute(path: '/signup', builder: (context, state) => SignUpScreen()),
       GoRoute(
-        path: '/moderator',
-        builder: (context, state) => ModeratorScreen(),
+        path: StringConstants.signIn,
+        builder: (context, _) => const SignInScreen(),
       ),
-      GoRoute(path: '/admin', builder: (context, state) => AdminScreen()),
       GoRoute(
-        path: '/superadmin',
-        builder: (context, state) => SuperAdminScreen(),
+        path: StringConstants.signUp,
+        builder: (context, _) => const SignUpScreen(),
+      ),
+      GoRoute(
+        path: StringConstants.admin,
+        builder: (context, _) => const AdminScreen(),
+      ),
+      GoRoute(
+        path: StringConstants.moderator,
+        builder: (context, _) => const ModeratorScreen(),
+      ),
+      GoRoute(
+        path: StringConstants.superAdmin,
+        builder: (context, _) => const SuperAdminScreen(),
       ),
     ],
   );

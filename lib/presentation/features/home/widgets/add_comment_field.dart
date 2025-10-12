@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
+import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
 import 'package:jay_insta_clone/presentation/features/home/comment_bloc/bloc/comment_bloc.dart';
 import 'package:jay_insta_clone/presentation/features/home/comment_bloc/bloc/comment_event.dart';
 import 'package:jay_insta_clone/presentation/features/home/comment_bloc/bloc/comment_state.dart';
-
 
 class AddCommentField extends StatefulWidget {
   final int userId;
@@ -27,14 +27,13 @@ class _AddCommentFieldState extends State<AddCommentField> {
     final text = commentController.text.trim();
     if (text.isEmpty) return;
 
-
     context.read<CommentBloc>().add(
-          SendCommentEvent(
-            postId: widget.postId,
-            userId: widget.userId,
-            content: text,
-          ),
-        );
+      SendCommentEvent(
+        postId: widget.postId,
+        userId: widget.userId,
+        content: text,
+      ),
+    );
 
     commentController.clear();
   }
@@ -65,9 +64,9 @@ class _AddCommentFieldState extends State<AddCommentField> {
             child: TextField(
               controller: commentController,
               decoration: InputDecoration(
-                hintText: "Write a comment...",
+                hintText: StringConstants.writeComment,
                 filled: true,
-                fillColor: const Color(0xFFF7F7F7),
+                fillColor: ColorConstants.fillColor,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 12,
                   vertical: 10,
@@ -90,8 +89,11 @@ class _AddCommentFieldState extends State<AddCommentField> {
               ),
             ),
             child: const Text(
-              "Post",
-              style: TextStyle(fontWeight: FontWeight.w600),
+              StringConstants.post,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: ColorConstants.fillColor,
+              ),
             ),
           ),
         ],

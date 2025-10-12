@@ -28,3 +28,4 @@ class CreatePostError extends CreatePostState {
   @override
   List<Object?> get props => [error];
 }
+

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jay_insta_clone/core%20/constants/color_constants.dart';
+import 'package:jay_insta_clone/core%20/constants/string_constants.dart';
+import 'package:jay_insta_clone/domain/entity/post_entity.dart';
 
 import 'package:jay_insta_clone/presentation/features/create_post/bloc/create_post_bloc.dart';
 import 'package:jay_insta_clone/presentation/features/create_post/bloc/create_post_event.dart';
@@ -9,7 +11,9 @@ import 'package:jay_insta_clone/presentation/features/create_post/widgets/custom
 import 'package:jay_insta_clone/core%20/di/di.dart';
 
 class CreatePost extends StatefulWidget {
-  const CreatePost({super.key});
+  final bool isEdit;
+  final PostEntity? post;
+  const CreatePost({super.key, this.post, required this.isEdit});
 
   @override
   State<CreatePost> createState() => _CreatePostState();
@@ -21,6 +25,15 @@ class _CreatePostState extends State<CreatePost> {
   final descriptionController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.isEdit) {
+      titleController.text = widget.post!.title;
+      descriptionController.text = widget.post!.content;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => CreatePostBloc(postUseCase: di()),
@@ -30,14 +43,23 @@ class _CreatePostState extends State<CreatePost> {
           backgroundColor: ColorConstants.fillColor,
           elevation: 0,
           centerTitle: true,
-          title: const Text(
-            "Create Post",
-            style: TextStyle(
-              color: ColorConstants.textPrimaryColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
-            ),
-          ),
+          title: widget.isEdit
+              ? Text(
+                  StringConstants.editPost,
+                  style: TextStyle(
+                    color: ColorConstants.textPrimaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                )
+              : Text(
+                  StringConstants.createPost,
+                  style: TextStyle(
+                    color: ColorConstants.textPrimaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
         ),
         body: SafeArea(
           child: Padding(
@@ -46,8 +68,10 @@ class _CreatePostState extends State<CreatePost> {
               listener: (context, state) {
                 if (state is CreatePostSuccess) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Post Created Successfully!"),
+                    SnackBar(
+                      content: widget.isEdit
+                          ? Text(StringConstants.postEdited)
+                          : Text(StringConstants.postCreated),
                       backgroundColor: ColorConstants.successColor,
                     ),
                   );
@@ -56,8 +80,10 @@ class _CreatePostState extends State<CreatePost> {
                 } else if (state is CreatePostError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(state.error),
-                      backgroundColor: Colors.redAccent,
+                      content: widget.isEdit
+                          ? Text(StringConstants.errorWhileEditing)
+                          : Text(state.error),
+                      backgroundColor: ColorConstants.errorColor,
                     ),
                   );
                 }
@@ -74,22 +100,24 @@ class _CreatePostState extends State<CreatePost> {
                         maxLength: 50,
                         controller: titleController,
                         decoration: CustomInputDecoration.inputDecoration(
-                          "Title",
+                          StringConstants.title,
                         ),
-                        validator: (value) => value == null || value.isEmpty
-                            ? "Enter a title"
+                        validator: (value) =>
+                            value == null || value.trim().isEmpty
+                            ? StringConstants.enterTitle
                             : null,
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
                         maxLength: 1000,
                         controller: descriptionController,
-                        maxLines: 6,
+                        maxLines: null,
                         decoration: CustomInputDecoration.inputDecoration(
-                          "Description",
+                          StringConstants.desc,
                         ),
-                        validator: (value) => value == null || value.isEmpty
-                            ? "Enter a description"
+                        validator: (value) =>
+                            value == null || value.trim().isEmpty
+                            ? StringConstants.enterDesc
                             : null,
                       ),
                       const Spacer(),
@@ -109,22 +137,48 @@ class _CreatePostState extends State<CreatePost> {
                               : () => {
                                   if (formKey.currentState!.validate())
                                     {
-                                      context.read<CreatePostBloc>().add(
-                                        SubmitPostEvent(
-                                          title: titleController.text,
-                                          content: descriptionController.text,
-                                        ),
-                                      ),
+                                      if (widget.isEdit)
+                                        {
+                                          context.read<CreatePostBloc>().add(
+                                            EditPostEvent(
+                                              title: titleController.text
+                                                  .trim(),
+                                              content: descriptionController
+                                                  .text
+                                                  .trim(),
+                                              postId: widget.post!.id,
+                                            ),
+                                          ),
+                                        }
+                                      else
+                                        {
+                                          context.read<CreatePostBloc>().add(
+                                            SubmitPostEvent(
+                                              title: titleController.text,
+                                              content:
+                                                  descriptionController.text,
+                                            ),
+                                          ),
+                                        },
                                     },
                                 },
                           child: isLoading
-                              ? const CircularProgressIndicator(
-                                  color: Colors.white,
+                              ? CircularProgressIndicator(
+                                  color: ColorConstants.fillColor,
+                                )
+                              : widget.isEdit
+                              ? const Text(
+                                  StringConstants.edit,
+                                  style: TextStyle(
+                                    color: ColorConstants.fillColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 )
                               : const Text(
-                                  "Post",
+                                  StringConstants.post,
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: ColorConstants.fillColor,
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
                                   ),

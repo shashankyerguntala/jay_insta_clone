@@ -15,6 +15,7 @@ class ProfileInitial extends ProfileState {}
 class ProfileLoading extends ProfileState {}
 
 class ProfileLoaded extends ProfileState {
+  final String? msg;
   final UserEntity user;
   final List<PostEntity> approvedPosts;
   final List<PostEntity> pendingPosts;
@@ -22,6 +23,7 @@ class ProfileLoaded extends ProfileState {
   final bool isModeratorRequest;
 
   const ProfileLoaded({
+    this.msg,
     required this.user,
     required this.approvedPosts,
     required this.pendingPosts,
@@ -32,6 +34,7 @@ class ProfileLoaded extends ProfileState {
 
 extension ProfileLoadedCopy on ProfileLoaded {
   ProfileLoaded copyWith({
+    String? msg,
     UserEntity? user,
     List<PostEntity>? approvedPosts,
     List<PostEntity>? pendingPosts,
@@ -39,6 +42,7 @@ extension ProfileLoadedCopy on ProfileLoaded {
     bool? isModeratorRequest,
   }) {
     return ProfileLoaded(
+      msg: msg,
       user: user ?? this.user,
       approvedPosts: approvedPosts ?? this.approvedPosts,
       pendingPosts: pendingPosts ?? this.pendingPosts,
@@ -68,3 +72,11 @@ class ProfileModeratorSuccess extends ProfileLoaded {
     required super.isModeratorRequest,
   });
 }
+
+class EditSuccessState extends ProfileState {}
+
+class EditErrorState extends ProfileState {}
+
+class DeleteSuccessState extends ProfileState {}
+
+class DeleteErrorState extends ProfileState {}

@@ -34,7 +34,33 @@ class PostRepositoryImpl implements PostRepository {
     final result = await dataSource.getUserPosts(userId);
     return result.fold(
       (failure) => Left(failure),
-      (models) => Right(models.map((m) => m).toList()), //! itha bgh .toEntity remove kely 
+      (models) => Right(models.map((m) => m).toList()),
     );
+  }
+
+  @override
+  Future<Either<Failure, bool>> flagPost(int postId, int userId) async {
+    final result = await dataSource.flagPost(postId, userId);
+    return result.fold(
+      (fail) => left(Failure('error while Flagging post !')),
+      (data) => right(data),
+    );
+  }
+
+  @override
+  Future<Either<Failure, bool>> editPost(
+    int postId,
+    int uid,
+    String title,
+    String content,
+  ) async {
+    final result = await dataSource.editPost(postId, uid, title, content);
+    return result.fold((failure) => Left(failure), (data) => Right(data));
+  }
+
+  @override
+  Future<Either<Failure, bool>> deletePost(int postId) async {
+    final result = await dataSource.deletePost(postId);
+    return result.fold((failure) => Left(failure), (data) => Right(true));
   }
 }
