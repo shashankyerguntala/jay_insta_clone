@@ -26,19 +26,8 @@ class AppRoutes {
             path: '/home',
             builder: (context, state) {
               final extra = state.extra;
-              final UserEntity user;
 
-              if (extra != null && extra is UserEntity) {
-                user = extra;
-              } else {
-                user = UserEntity(
-                  username: 'shash',
-                  email: 'shash@gmail.com',
-                  role: 'user',
-                  id: 0,
-                );
-              }
-              return HomeScreen(user: user);
+              return HomeScreen(user: extra as UserEntity);
             },
           ),
           GoRoute(
