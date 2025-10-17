@@ -12,19 +12,6 @@ class PostTab extends StatelessWidget {
   final SuperAdminLoaded state;
   const PostTab({super.key, required this.state});
 
-  // Color getStatusColor(String status) {
-  //   switch (status.toUpperCase()) {
-  //     case 'PENDING':
-  //       return Colors.orange;
-  //     case 'APPROVED':
-  //       return Colors.green;
-  //     case 'REJECTED':
-  //       return Colors.red;
-  //     default:
-  //       return ColorConstants.textSecondaryColor;
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     if (state.posts.isEmpty) {
