@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:jay_insta_clone/core%20/shared_prefs/auth_local_storage.dart';
+import 'package:jay_insta_clone/data%20/data_sources/local_data_sources/auth_local_storage.dart';
 import 'package:jay_insta_clone/domain/usecase/auth_usecase.dart';
 
 part 'sign_in_event.dart';
