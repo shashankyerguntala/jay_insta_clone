@@ -29,7 +29,7 @@ class ModeratorTabView extends StatelessWidget {
           titleSpacing: 0,
           elevation: 0,
           title: Text('Moderator', style: ThemeConstants.headingMedium),
-          bottom: _buildTabBar(),
+          bottom: tabBar(),
         ),
         body: TabBarView(
           children: [
@@ -41,7 +41,7 @@ class ModeratorTabView extends StatelessWidget {
     );
   }
 
-  PreferredSize _buildTabBar() {
+  PreferredSize tabBar() {
     return PreferredSize(
       preferredSize: const Size.fromHeight(56),
       child: Padding(
